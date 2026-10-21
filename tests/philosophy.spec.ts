@@ -40,6 +40,43 @@ test("narrativa coordena palco e capítulos, inclusive ao rolar para trás", asy
       chapters.nth(index).getByRole("heading", { level: 3 }),
     ).toHaveText(titles[index]);
   }
+  if (page.viewportSize()!.width > 900) {
+    // At each dissolve midpoint the outgoing photo still covers the stage,
+    // including when traversing the same transition in reverse.
+    for (const index of [0, 1, 0]) {
+      const position = await chapters.evaluateAll((elements, index) => {
+        const centers = elements.map((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.top + scrollY + rect.height / 2;
+        });
+        return (centers[index] + centers[index + 1]) / 2 - innerHeight / 2;
+      }, index);
+      await page.evaluate(
+        (top) => window.scrollTo({ top, behavior: "instant" }),
+        position,
+      );
+      const layers = root.locator("[data-philosophy-layer]");
+      await expect
+        .poll(() =>
+          layers
+            .nth(index + 1)
+            .evaluate((element) => Number(getComputedStyle(element).opacity)),
+        )
+        .toBeGreaterThan(0.48);
+      await expect
+        .poll(() =>
+          layers
+            .nth(index + 1)
+            .evaluate((element) => Number(getComputedStyle(element).opacity)),
+        )
+        .toBeLessThan(0.52);
+      await expect(layers.nth(index)).toHaveCSS("opacity", "1");
+      await expect(layers.nth(index)).toHaveCSS(
+        "transform",
+        "matrix(1, 0, 0, 1, 0, 0)",
+      );
+    }
+  }
   await expect(root.locator("[data-philosophy-visual]")).toHaveCSS(
     "position",
     "sticky",

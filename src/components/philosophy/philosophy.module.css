@@ -158,6 +158,30 @@
 .story[data-enhanced="true"] .progress > span {
   display: block;
 }
+/* Desktop refinement is isolated from the approved mobile/static flow. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] {
+    --philosophy-plate-height: clamp(280px, 31.5vw, min(460px, 54svh));
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 8%;
+  }
+  .story[data-enhanced="true"] .visual {
+    top: clamp(
+      24px,
+      calc((100svh - var(--philosophy-plate-height)) / 2 - 35px),
+      190px
+    );
+    padding-top: 0;
+  }
+  .story[data-enhanced="true"] .plate {
+    height: var(--philosophy-plate-height);
+    margin: 22px 0 28px;
+  }
+  .story[data-enhanced="true"] .chapter {
+    min-height: max(560px, 68svh);
+    padding: 56px 0;
+  }
+}
 @media (max-width: 1100px) and (min-width: 901px) {
   .story {
     gap: 6%;

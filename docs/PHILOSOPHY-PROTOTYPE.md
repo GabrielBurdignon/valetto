@@ -8,7 +8,7 @@ Somente Nossa Filosofia foi substituída por um componente próprio. Hero, A Ess
 
 Um palco contínuo apresenta Conveniência, Responsabilidade e Atenção aos detalhes como três capítulos. No desktop, o índice tipográfico permanece em CSS sticky enquanto o texto percorre a coluna de leitura. O número em grande escala, a ênfase dos nomes e o progresso linear mudam juntos. Os artigos não são cards nem são ocultados durante a leitura.
 
-Uma timeline GSAP/ScrollTrigger local controla os três momentos, com scrub de 0,45 s. A progressão funciona nos dois sentidos. Não há pin, scroll hijacking, rolagem sintética em produção ou mudança de estado React a cada frame. A linha usa scaleX, os números usam opacity/transform e o texto mantém opacidade mínima de 0,82.
+Uma timeline GSAP/ScrollTrigger local controla os três momentos, com scrub de 0,45 s. A progressão funciona nos dois sentidos. Não há pin, scroll hijacking, rolagem sintética em produção ou mudança de estado React a cada frame. A linha usa scaleX, os números usam opacidade no desktop e opacity/transform no mobile e o texto mantém opacidade mínima de 0,82.
 
 No tablet/mobile, o índice vira uma faixa sticky compacta e os capítulos permanecem em fluxo natural. Os intervalos foram reduzidos para permitir continuidade entre momentos sem reproduzir o painel desktop em escala menor.
 
@@ -33,3 +33,13 @@ Capturas revisadas em 1440×900, 768×1024 e 390×844, sem erros de página ou o
 Não houve deploy ou push. Este é um protótipo para aprovação antes de estender a linguagem a qualquer outra seção.
 
 A evolução da infraestrutura fotográfica, a procedência e os detalhes dos três assets estão em `PHILOSOPHY-SCENE-ASSETS.md`.
+
+## Refinamento cinematográfico final
+
+Apenas o desktop aprimorado recebeu novas proporções: coluna visual de 54% do espaço útil, intervalo de 8% e painel de até 460px. Em 1440px, a fotografia passa de aproximadamente 570 × 418px para 630 × 454px (cerca de 20% de área adicional). A numeração mantém sua escala. O topo sticky considera a altura real do painel para aproximar seu centro da linha central de leitura. Capítulos passam de 72svh para no mínimo 68svh/560px, com padding de 56px, encurtando as esperas inicial e final.
+
+A timeline desktop agora começa no centro do primeiro capítulo e termina no centro do último. As duas dissoluções ocupam metade do percurso entre centros consecutivos, coordenando fotografia, número, destaque dos nomes e opacidade do texto. O índice ativo acompanha a timeline renderizada, incluindo o scrub. A imagem anterior permanece opaca sob a próxima até a dissolução terminar, evitando escurecimento do fundo; todas as mudanças são reversíveis. Não há deslocamento vertical do palco desktop. O movimento de escala de 1,5% foi mantido.
+
+O mobile conserva as proporções e animações anteriores. A leitura estática/sem JavaScript e a preferência de movimento reduzido não recebem os ajustes desktop. Nenhum asset, texto institucional, dependência ou seção externa a Nossa Filosofia foi alterado.
+
+A gravação de revisão usa deslocamento constante de 160px por segundo, em tempo real, com avanço e retorno restritos à seção. É uma demonstração de navegador, não medição de fluidez de dispositivo físico.

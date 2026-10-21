@@ -12,7 +12,7 @@ npm ci
 npm run dev
 ```
 
-A configuração npm usa cache gravável em `/workspace/.npm-cache` neste ambiente. Fora da nuvem, substitua com `npm --cache /caminho/gravavel ci`.
+A configuração npm usa cache em `/tmp/valetto-npm-cache`, sem depender da pasta `/workspace` da nuvem. Para outro caminho, use `npm --cache /caminho/gravavel ci`.
 
 ```sh
 npm run lint
@@ -38,6 +38,10 @@ Os testes iniciam o servidor de produção na porta 3100; execute o build antes.
 
 ## Escopo
 
-Sem credenciais, banco, cadastro ou rastreamento nesta fase. O CTA abre o Instagram oficial. Não há confirmação simulada de captação. Página de privacidade descreve apenas a versão atual; revisar antes de coleta de dados. Para 3D, é necessário fornecer/selecionar modelo de motocicleta licenciado e fallback aprovado. O monograma editorial não é uma renderização de moto.
+Sem credenciais, banco, cadastro ou rastreamento nesta fase. O CTA abre o Instagram oficial. Não há confirmação simulada de captação. Página de privacidade descreve apenas a versão atual; revisar antes de coleta de dados. Para 3D, é necessário fornecer/selecionar modelo de motocicleta licenciado e validar o fallback correspondente. O hero atual utiliza uma imagem 2D.
 
 Deploy requer build e processo Next.js compatível. Domínio e publicação não são configurados por este projeto.
+
+## Hero cinematográfico
+
+Hero estático integrado à imagem de motocicleta fornecida pelo responsável em `Motocicleta.zip`. Original PNG preservado e derivados WebP desktop/mobile em `public/media/hero/`. Entrada suave, parallax discreto e alternativa sem movimento/JavaScript. A infraestrutura Three.js/R3F/Drei permanece preparada, com modelo desativado (`motorcycleAsset = null`). Veja `docs/HERO-ASSETS.md` para procedência, otimização, comportamento e evolução 3D.

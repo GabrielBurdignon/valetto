@@ -1,3 +1,5 @@
+import { HeroVisual } from "@/components/hero/hero-visual";
+import { motorcycleAsset } from "@/lib/hero-asset";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -35,12 +37,7 @@ export default function Home() {
             Conheça a Valetto <ArrowUpRight size={18} />
           </a>
         </div>
-        <div className="hero-art" aria-hidden="true">
-          <div className="light-column" />
-          <div className="art-type">V</div>
-          <div className="floor-line" />
-          <span className="art-caption">PRECISÃO. CUIDADO. TEMPO.</span>
-        </div>
+        <HeroVisual asset={motorcycleAsset} />
         <div className="hero-bottom">
           <a href="#essencia" className="scroll-link">
             <ArrowDown size={17} /> EXPLORE A EXPERIÊNCIA

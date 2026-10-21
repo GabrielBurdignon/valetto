@@ -257,47 +257,38 @@ section[id] {
   overflow: hidden;
   background: radial-gradient(ellipse at 62% 49%, #252a3160, transparent 65%);
 }
-.art-type {
-  font-size: clamp(360px, 47vw, 780px);
-  font-weight: 700;
-  letter-spacing: -0.1em;
-  line-height: 1;
-  transform: scaleX(0.9);
-  color: transparent;
-  background: linear-gradient(
-    125deg,
-    #090a0c 17%,
-    #3a4048 32%,
-    #c4c9ce 33%,
-    #555b64 34%,
-    #171a1f 44%,
-    #090a0c 57%,
-    #353b43 71%,
-    #9da4ac 72%,
-    #1f2329 75%,
-    #08090b 88%
-  );
-  background-clip: text;
-  user-select: none;
-}
-.light-column {
+.hero-brand-mark {
   position: absolute;
-  width: 1px;
-  top: 16%;
-  bottom: 12%;
-  right: 28%;
-  background: linear-gradient(transparent, #e2e7ef77, transparent);
-  transform: rotate(24deg);
-  box-shadow: 0 0 100px 15px #8b9bac0d;
-}
-.floor-line {
-  position: absolute;
+  right: 8%;
   bottom: 10%;
-  left: 18%;
-  right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #71798366, transparent);
-  transform: rotate(-8deg);
+  font-size: 76px;
+  line-height: 1;
+  color: #b6bdc51c;
+  font-weight: 700;
+  pointer-events: none;
+}
+.hero-asset-note {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.motorcycle-visual {
+  position: absolute;
+  inset: 0;
+}
+.motorcycle-poster {
+  object-fit: contain;
+}
+.motorcycle-canvas {
+  pointer-events: none;
+}
+.motorcycle-canvas canvas {
+  opacity: 0;
+}
+.hero-art-configured {
+  width: 52%;
+  right: 0;
+  pointer-events: none;
 }
 .art-caption {
   position: absolute;
@@ -674,9 +665,6 @@ section[id] {
     opacity: 0.45;
     pointer-events: none;
   }
-  .art-type {
-    font-size: 440px;
-  }
   .art-caption {
     display: none;
   }
@@ -812,5 +800,189 @@ section[id] {
   }
   .button:hover {
     transform: none;
+  }
+}
+
+/* Scene layout is isolated from the existing editorial sections. */
+@media (max-width: 900px) {
+  .hero-art-configured {
+    width: 48%;
+    right: 0;
+    opacity: 1;
+  }
+  .hero-art-pending {
+    right: 0;
+    width: 40%;
+  }
+}
+@media (max-width: 600px) {
+  .hero-art-configured {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    aspect-ratio: 1.35;
+    flex: none;
+    opacity: 1;
+    margin: -50px 0 24px;
+  }
+  .hero-art-pending {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 100px;
+    margin: -65px 0 24px;
+    opacity: 1;
+    justify-content: flex-start;
+    background: none;
+  }
+  .hero-brand-mark {
+    right: 0;
+    font-size: 48px;
+    bottom: 10%;
+  }
+}
+
+.motorcycle-visual[data-state="ready"] .motorcycle-poster {
+  opacity: 0;
+}
+
+/* Static cinematic art is scoped to the hero; the editorial sections stay intact. */
+.hero-art-static {
+  inset: 0;
+  width: 100%;
+  opacity: 1;
+  pointer-events: none;
+  background: none;
+  z-index: 0;
+}
+.hero-poster,
+.hero-poster-reveal,
+.hero-poster-parallax {
+  position: absolute;
+  inset: 0;
+}
+.hero-poster {
+  overflow: hidden;
+}
+.hero-poster-reveal {
+  transform-origin: 75% 55%;
+}
+.hero-poster picture {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.hero-poster img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: right center;
+  mask-image:
+    linear-gradient(90deg, transparent, #000 5%, #000 97%, transparent),
+    linear-gradient(180deg, transparent, #000 7%, #000 91%, transparent);
+  mask-composite: intersect;
+}
+.hero-poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, #08090b 0%, #08090b99 25%, transparent 50%),
+    linear-gradient(
+      0deg,
+      #08090b 0%,
+      transparent 14%,
+      transparent 90%,
+      #08090b 100%
+    );
+}
+.hero-poster[data-loaded="true"] .hero-poster-reveal {
+  animation: hero-poster-entry 1.6s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+@keyframes hero-poster-entry {
+  from {
+    opacity: 0.45;
+    transform: translate3d(0, 10px, 0) scale(1.015);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+@media (min-width: 901px) {
+  .hero-art-static .hero-poster {
+    top: 24px;
+    bottom: 20px;
+  }
+}
+@media (max-width: 900px) {
+  .hero-art-static .hero-poster picture {
+    justify-content: center;
+  }
+  .hero-art-static .hero-poster img {
+    object-position: center;
+  }
+  .hero-art-static .hero-poster::after {
+    background:
+      linear-gradient(90deg, #08090b, transparent 5%, transparent 97%, #08090b),
+      linear-gradient(
+        180deg,
+        #08090b,
+        transparent 10%,
+        transparent 88%,
+        #08090b
+      );
+  }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .hero-art-static {
+    position: absolute;
+    top: 165px;
+    bottom: 90px;
+    right: 0;
+    left: auto;
+    width: 48%;
+    margin: 0;
+  }
+  .hero-art-static .hero-poster img {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+  .hero:has(.hero-art-static) .hero-description {
+    max-width: 42vw;
+  }
+}
+@media (max-width: 600px) {
+  .hero:has(.hero-art-static) .hero-copy {
+    flex: none;
+    padding: 20px 0 0;
+  }
+  .hero:has(.hero-art-static) .hero-copy > .eyebrow {
+    margin-bottom: 14px;
+  }
+  .hero:has(.hero-art-static) .hero-description {
+    margin: 14px 0 18px;
+  }
+  .hero-art-static {
+    position: relative;
+    inset: auto;
+    width: calc(100% + var(--gutter) * 2);
+    margin: 0 calc(-1 * var(--gutter)) 8px;
+    aspect-ratio: 1.25;
+    flex: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-poster[data-loaded="true"] .hero-poster-reveal {
+    animation: none;
+    transform: none;
+  }
+  .hero-poster-parallax {
+    transform: none !important;
   }
 }

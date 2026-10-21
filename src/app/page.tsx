@@ -1,9 +1,10 @@
+import { ProcessSection } from "@/components/process/process-section";
 import { PhilosophySection } from "@/components/philosophy/philosophy-section";
 import { EssenceSection } from "@/components/essence/essence-section";
 import { HeroVisual } from "@/components/hero/hero-visual";
 import { motorcycleAsset } from "@/lib/hero-asset";
 import { ArrowDown, ArrowUpRight, MoveUpRight } from "lucide-react";
-import { brand, steps } from "@/lib/brand";
+import { brand } from "@/lib/brand";
 export default function Home() {
   return (
     <main id="conteudo">
@@ -44,30 +45,7 @@ export default function Home() {
       </section>
       <EssenceSection />
       <PhilosophySection />
-      <section id="como-funciona" className="process section-pad">
-        <div className="section-label">
-          <span>03 / COMO FUNCIONA</span>
-          <span>SIMPLES, DO INÍCIO AO FIM.</span>
-        </div>
-        <h2>
-          Você entrega a chave.
-          <br />
-          <span>Nós cuidamos do resto.</span>
-        </h2>
-        <ol className="timeline">
-          {steps.map((step, i) => (
-            <li key={step.title}>
-              <span className="step-number">0{i + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </li>
-          ))}
-        </ol>
-        <p className="small-note">
-          Fluxo previsto. Disponibilidade e condições serão informadas no
-          lançamento.
-        </p>
-      </section>
+      <ProcessSection />
       <section id="servicos" className="services section-pad">
         <div className="section-label">
           <span>04 / A EXPERIÊNCIA</span>

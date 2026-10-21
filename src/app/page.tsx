@@ -1,14 +1,8 @@
+import { PhilosophySection } from "@/components/philosophy/philosophy-section";
 import { EssenceSection } from "@/components/essence/essence-section";
 import { HeroVisual } from "@/components/hero/hero-visual";
 import { motorcycleAsset } from "@/lib/hero-asset";
-import {
-  ArrowDown,
-  ArrowUpRight,
-  MoveUpRight,
-  Clock3,
-  Route,
-  Fingerprint,
-} from "lucide-react";
+import { ArrowDown, ArrowUpRight, MoveUpRight } from "lucide-react";
 import { brand, steps } from "@/lib/brand";
 export default function Home() {
   return (
@@ -49,51 +43,7 @@ export default function Home() {
         </div>
       </section>
       <EssenceSection />
-      <section className="philosophy section-pad">
-        <div className="section-label">
-          <span>02 / NOSSA FILOSOFIA</span>
-          <span>ATENÇÃO EM CADA ESCOLHA</span>
-        </div>
-        <div className="split-heading">
-          <h2>
-            Cuidado que vai
-            <br />
-            além do transporte.
-          </h2>
-          <p>
-            Não se trata apenas de levar uma moto de um lugar a outro. É sobre
-            tornar o caminho mais simples para você.
-          </p>
-        </div>
-        <div className="principles">
-          {[
-            {
-              Icon: Clock3,
-              title: "Conveniência",
-              text: "Sua rotina no centro. Uma proposta pensada para poupar deslocamentos e simplificar a organização do cuidado com sua moto.",
-            },
-            {
-              Icon: Route,
-              title: "Responsabilidade",
-              text: "Clareza para combinar cada atendimento, respeitando o destino e as condições alinhadas com você.",
-            },
-            {
-              Icon: Fingerprint,
-              title: "Atenção aos detalhes",
-              text: "Um olhar cuidadoso para a experiência inteira. Do primeiro contato à combinação do retorno.",
-            },
-          ].map(({ Icon, title, text }, i) => (
-            <article key={title}>
-              <div className="principle-top">
-                <Icon strokeWidth={1} size={27} />
-                <span>0{i + 1}</span>
-              </div>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <PhilosophySection />
       <section id="como-funciona" className="process section-pad">
         <div className="section-label">
           <span>03 / COMO FUNCIONA</span>

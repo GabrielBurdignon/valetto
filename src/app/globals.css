@@ -847,7 +847,12 @@ section[id] {
 }
 
 /* Static cinematic art is scoped to the hero; the editorial sections stay intact. */
+.hero:has(.hero-art-static) {
+  background: var(--bg);
+  isolation: isolate;
+}
 .hero-art-static {
+  mix-blend-mode: lighten;
   inset: 0;
   width: 100%;
   opacity: 1;
@@ -881,8 +886,24 @@ section[id] {
   object-fit: contain;
   object-position: right center;
   mask-image:
-    linear-gradient(90deg, transparent, #000 5%, #000 97%, transparent),
-    linear-gradient(180deg, transparent, #000 7%, #000 91%, transparent);
+    linear-gradient(
+      90deg,
+      transparent,
+      #0008 3%,
+      #000 8%,
+      #000 94%,
+      #0008 98%,
+      transparent
+    ),
+    linear-gradient(
+      180deg,
+      transparent,
+      #0008 4%,
+      #000 10%,
+      #000 88%,
+      #0008 96%,
+      transparent
+    );
   mask-composite: intersect;
 }
 .hero-poster::after {
@@ -915,11 +936,15 @@ section[id] {
 }
 @media (min-width: 901px) {
   .hero-art-static .hero-poster {
-    top: 24px;
-    bottom: 20px;
+    top: 44px;
+    right: 24px;
+    bottom: 28px;
   }
 }
 @media (max-width: 900px) {
+  .hero-art-static .hero-poster {
+    inset: 10px 12px 6px;
+  }
   .hero-art-static .hero-poster picture {
     justify-content: center;
   }
@@ -984,5 +1009,40 @@ section[id] {
   }
   .hero-poster-parallax {
     transform: none !important;
+  }
+}
+
+/* Progressive enhancement: the server-rendered copy remains readable even if
+   image hydration or the animation chunk fails. Delays never conceal content. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero:has(.hero-poster[data-loaded="true"]) .hero-copy > .eyebrow,
+  .hero:has(.hero-poster[data-loaded="true"]) .hero-copy > h1 {
+    animation: hero-copy-entry 1s cubic-bezier(0.2, 0.65, 0.3, 1) 0.26s both;
+  }
+  .hero:has(.hero-poster[data-loaded="true"]) .hero-description {
+    animation: hero-copy-entry 0.9s cubic-bezier(0.2, 0.65, 0.3, 1) 0.4s both;
+  }
+  .hero:has(.hero-poster[data-loaded="true"]) .hero-copy > .button {
+    animation: hero-cta-entry 0.8s cubic-bezier(0.2, 0.65, 0.3, 1) 0.62s both;
+  }
+}
+@keyframes hero-copy-entry {
+  from {
+    opacity: 0.72;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes hero-cta-entry {
+  from {
+    opacity: 0.82;
+    transform: translate3d(0, 4px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }

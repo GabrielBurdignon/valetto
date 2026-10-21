@@ -36,3 +36,11 @@ Build de produção, lint, TypeScript strict, formatação e testes Playwright. 
 Medições de laboratório em Chromium local, build de produção, sem limitação de CPU/rede, com um contexto novo por viewport, são registradas em `test-results/review/metrics.json`. Não constituem percentil 75 de produção. Não foi medido INP de campo nem testados dispositivos físicos/Safari/Firefox.
 
 Nenhum deploy ou envio ao GitHub foi realizado nesta etapa.
+
+## Refinamento visual do hero aprovado
+
+Escala tipográfica, headline, marca, menu e CTA preservados. A imagem ganhou 20px adicionais de respiro superior e 24px à direita no desktop; tablet/mobile usam recuo interno de 10px no topo e 12px nas laterais, mantendo a área de layout reservada. As máscaras ganharam transições intermediárias, e composição `lighten` sobre o fundo isolado `#08090B` elimina diferenças de preto sem adicionar luz artificial ou editar a imagem original.
+
+A revelação da moto permanece no início. Após 260ms, entram a tipografia e a assinatura; a descrição entra após 400ms, e o CTA após 620ms. São animações CSS somente de opacidade/transformação, sem novas dependências ou JavaScript. Nenhum elemento parte de opacidade zero. Sem hidratação, a tipografia e o CTA permanecem completamente visíveis. Movimento reduzido desativa toda a sequência e o parallax.
+
+Validação desta revisão: build, ESLint, TypeScript e formatação aprovados; 21 testes Playwright aprovados. Capturas normais e com redução de movimento revisadas em 1440×900, 768×1024 e 390×844. Sem overflow horizontal ou erros de página nas checagens. A medição local adicional registrou CLS 0 nos três tamanhos, uma única imagem solicitada por viewport e nenhum canvas. Esses dados locais não representam Core Web Vitals de produção nem desempenho de dispositivos físicos. Nenhum deploy ou envio ao GitHub nesta revisão.

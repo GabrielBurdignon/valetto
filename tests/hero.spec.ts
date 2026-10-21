@@ -43,6 +43,12 @@ test("headline e CTA funcionam sem JavaScript", async ({
         ),
     )
     .toBe(true);
+  await expect(page.locator("#hero-title")).toHaveCSS("opacity", "1");
+  await expect(page.locator("#hero-title")).toHaveCSS("transform", "none");
+  await expect(page.getByRole("link", { name: "Conheça a Valetto" })).toHaveCSS(
+    "opacity",
+    "1",
+  );
   await page.getByRole("link", { name: "Conheça a Valetto" }).click();
   await expect(page).toHaveURL(/#essencia$/);
   await expect(page.locator("#essencia")).toBeInViewport();
@@ -122,4 +128,43 @@ test("parallax discreto acompanha scroll e é desativado ao reduzir movimento", 
   await expect(layer).toHaveCSS("transform", "none");
   await page.getByRole("link", { name: "Conheça a Valetto" }).click();
   await expect(page).toHaveURL(/#essencia$/);
+});
+
+test("entrada apresenta moto, tipografia e CTA em sequência sem ocultar conteúdo", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await expect(page.locator(".hero-poster")).toHaveAttribute(
+    "data-loaded",
+    "true",
+  );
+  const frames = await page.evaluate(() =>
+    [".hero-poster-reveal", "#hero-title", ".hero-copy > .button"].map(
+      (selector) => {
+        const element = document.querySelector(selector)!;
+        const animation = element.getAnimations()[0];
+        const effect = animation.effect as KeyframeEffect;
+        return {
+          delay: Number(effect.getTiming().delay),
+          minimumOpacity: Math.min(
+            ...effect.getKeyframes().map((frame) => Number(frame.opacity)),
+          ),
+          finalOpacity: Number(effect.getKeyframes().at(-1)!.opacity),
+        };
+      },
+    ),
+  );
+  expect(frames[0].delay).toBeLessThan(frames[1].delay);
+  expect(frames[1].delay).toBeLessThan(frames[2].delay);
+  for (const frame of frames) {
+    expect(frame.minimumOpacity).toBeGreaterThan(0);
+    expect(frame.finalOpacity).toBe(1);
+  }
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("#hero-title")).toHaveCSS("animation-name", "none");
+  await expect(page.getByRole("link", { name: "Conheça a Valetto" })).toHaveCSS(
+    "animation-name",
+    "none",
+  );
 });

@@ -1,9 +1,10 @@
+import { ExperienceSection } from "@/components/experience/experience-section";
 import { ProcessSection } from "@/components/process/process-section";
 import { PhilosophySection } from "@/components/philosophy/philosophy-section";
 import { EssenceSection } from "@/components/essence/essence-section";
 import { HeroVisual } from "@/components/hero/hero-visual";
 import { motorcycleAsset } from "@/lib/hero-asset";
-import { ArrowDown, ArrowUpRight, MoveUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
 export default function Home() {
   return (
@@ -46,43 +47,7 @@ export default function Home() {
       <EssenceSection />
       <PhilosophySection />
       <ProcessSection />
-      <section id="servicos" className="services section-pad">
-        <div className="section-label">
-          <span>04 / A EXPERIÊNCIA</span>
-          <span>PENSADA PARA A SUA ROTINA</span>
-        </div>
-        <div className="service-feature">
-          <div>
-            <span className="eyebrow">A PROPOSTA VALETTO</span>
-            <h2>
-              A próxima revisão.
-              <br />
-              Sem reorganizar
-              <br />
-              <span>a sua vida.</span>
-            </h2>
-          </div>
-          <div className="service-description">
-            <MoveUpRight size={48} strokeWidth={1} />
-            <h3>Concierge para revisões e manutenções programadas.</h3>
-            <p>
-              Organização da retirada, transporte até a concessionária ou
-              prestador especializado e retorno da motocicleta, conforme o
-              atendimento combinado.
-            </p>
-            <a className="text-link" href="#lancamento">
-              Acompanhe o próximo capítulo <ArrowUpRight size={17} />
-            </a>
-          </div>
-        </div>
-        <div className="future">
-          <span className="eyebrow">VISÃO DE EXPANSÃO</span>
-          <p>
-            Novas possibilidades de conveniência estão no nosso horizonte. Cada
-            novo serviço será apresentado quando estiver pronto.
-          </p>
-        </div>
-      </section>
+      <ExperienceSection />
       <section className="statement section-pad">
         <span className="eyebrow">O VERDADEIRO LUXO É TER TEMPO.</span>
         <h2>

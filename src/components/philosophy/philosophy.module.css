@@ -257,10 +257,90 @@
   }
 }
 
-/* Approved future imagery uses the same stage; the index yields visual space. */
-.layer:has(img) .number {
+/* Independent photo panels share the existing scene crossfade; no asset means
+   no empty photo frame. The large index keeps its original desktop scale. */
+.media {
+  overflow: hidden;
+  background: var(--bg);
+}
+.media picture,
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media img {
+  object-fit: cover;
+  object-position: var(--philosophy-focus, center);
+}
+.stageMedia {
+  position: absolute;
+  inset: 0;
+}
+.stageMedia::after,
+.inlinePanel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 45%, #08090bb3);
+}
+.layer[data-asset-state="configured"] .number {
   align-self: flex-end;
-  padding: 20px;
-  font-size: 64px;
-  letter-spacing: -0.06em;
+  padding: 0 18px 18px;
+  color: var(--text);
+  z-index: 1;
+}
+.inlinePanel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.35;
+  overflow: hidden;
+  margin: 36px 0 0;
+}
+.inlineMedia {
+  position: absolute;
+  inset: 0;
+}
+.inlineNumber {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 1;
+  font-size: clamp(140px, 18vw, 240px);
+  font-weight: 400;
+  line-height: 0.85;
+  letter-spacing: -0.09em;
+}
+.imageDescription {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] .inlinePanel {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .inlinePanel {
+    aspect-ratio: 1.35;
+  }
+  .media img {
+    object-position: var(--philosophy-mobile-focus, center);
+  }
+  .inlineNumber {
+    font-size: clamp(140px, 35vw, 220px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .media picture {
+    transform: none !important;
+  }
 }

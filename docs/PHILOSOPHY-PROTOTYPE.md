@@ -20,7 +20,7 @@ O palco visual é aria-hidden, pois repete informações já presentes nos headi
 
 ## Arquitetura para assets futuros
 
-`src/lib/philosophy-content.ts` mantém o texto e um campo `visual` por capítulo. Os três campos estão deliberadamente `null`. Cada visual futuro terá caminho, dimensões, ponto de foco, procedência e autorização de uso. O palco já aceita a imagem e reduz a escala do índice quando há imagem, sem reconstruir a seção.
+`src/lib/philosophy-content.ts` mantém o texto e um campo `visual` por capítulo. Os três campos estão deliberadamente `null`. Cada visual futuro terá caminho, dimensões, ponto de foco, procedência e autorização de uso. O palco e os painéis estáticos/mobile aceitam imagens independentes por cena, preservando a numeração monumental, sem reconstruir a seção.
 
 A versão atual é um protótipo editorial tipográfico, não uma simulação de uma motocicleta. Integrar imagens futuramente exige receber material aprovado, ajustar enquadramentos e validar fallback/mobile com esses assets reais. O comportamento visual com imagens ainda não foi aprovado nem medido.
 
@@ -31,3 +31,5 @@ Build, lint, TypeScript e formatação. A suíte inclui 42 testes Playwright: os
 Capturas revisadas em 1440×900, 768×1024 e 390×844, sem erros de página ou overflow horizontal nas checagens. Gravação desktop mostra o avanço e o retorno do scroll. Não representa medição de fluidez em dispositivos físicos; Core Web Vitals de produção não foram medidos nesta etapa.
 
 Não houve deploy ou push. Este é um protótipo para aprovação antes de estender a linguagem a qualquer outra seção.
+
+A evolução da infraestrutura fotográfica, seus requisitos e o estado pendente dos três assets estão em `PHILOSOPHY-SCENE-ASSETS.md`.

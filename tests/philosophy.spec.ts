@@ -11,6 +11,15 @@ test("narrativa coordena palco e capítulos, inclusive ao rolar para trás", asy
   const root = page.locator("[data-philosophy-story]");
   const chapters = root.locator("[data-philosophy-chapter]");
   await expect(chapters).toHaveCount(3);
+  const scenes = root.locator("[data-philosophy-scene]");
+  await expect(scenes).toHaveCount(3);
+  expect(
+    await scenes.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute("data-philosophy-scene")),
+    ),
+  ).toEqual(["cockpit", "engineering", "finish"]);
+  await expect(root.locator('[data-asset-state="pending"]')).toHaveCount(3);
+
   for (const index of [0, 1, 2, 1, 0]) {
     await chapters
       .nth(index)

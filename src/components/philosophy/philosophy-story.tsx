@@ -13,6 +13,7 @@ export function PhilosophyStory({ children }: { children: ReactNode }) {
     let generation = 0;
     let revert: (() => void) | undefined;
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const layout = matchMedia("(min-width: 901px)");
     const setup = async () => {
       const current = ++generation;
       revert?.();
@@ -46,6 +47,17 @@ export function PhilosophyStory({ children }: { children: ReactNode }) {
           gsap.set(names[0], { opacity: 1 });
           gsap.set(chapters, { opacity: 0.82 });
           gsap.set(chapters[0], { opacity: 1 });
+          const desktop = layout.matches;
+          // Photo plates crossfade in the same timeline as the preserved index.
+          // Below 900px the visible panels remain in the natural article flow.
+          const photos = host.querySelectorAll<HTMLElement>(
+            "[data-philosophy-layer] picture",
+          );
+          if (desktop && photos.length)
+            gsap.set(photos, {
+              scale: desktop ? 1.015 : 1,
+              transformOrigin: "center",
+            });
           const timeline = gsap.timeline({
             scrollTrigger: {
               trigger: host,
@@ -54,12 +66,47 @@ export function PhilosophyStory({ children }: { children: ReactNode }) {
               scrub: 0.45,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
-                host.dataset.active = String(
+                const active = String(
                   Math.min(2, Math.floor(self.progress * 3)) + 1,
                 );
+                if (host.dataset.active !== active)
+                  host.dataset.active = active;
               },
             },
           });
+          if (desktop)
+            photos.forEach((photo) => {
+              const index = Array.from(layers).findIndex((layer) =>
+                layer.contains(photo),
+              );
+              timeline.to(
+                photo,
+                { scale: 1, duration: 1, ease: "none" },
+                index,
+              );
+            });
+          if (!desktop)
+            host
+              .querySelectorAll<HTMLElement>("[data-philosophy-static-scene]")
+              .forEach((panel) => {
+                const photo = panel.querySelector("picture");
+                if (!photo) return;
+                gsap.fromTo(
+                  photo,
+                  { opacity: 0.82, y: 8 },
+                  {
+                    opacity: 1,
+                    y: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                      trigger: panel,
+                      start: "top 92%",
+                      end: "top 55%",
+                      scrub: 0.45,
+                    },
+                  },
+                );
+              });
           timeline.fromTo(
             progress,
             { scaleX: 0 },
@@ -115,11 +162,13 @@ export function PhilosophyStory({ children }: { children: ReactNode }) {
     );
     observer.observe(host);
     motion.addEventListener("change", setup);
+    layout.addEventListener("change", setup);
     return () => {
       disposed = true;
       generation++;
       observer.disconnect();
       motion.removeEventListener("change", setup);
+      layout.removeEventListener("change", setup);
       revert?.();
     };
   }, []);

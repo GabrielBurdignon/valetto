@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { philosophyChapters as chapters } from "@/lib/philosophy-content";
 import { PhilosophyStory } from "./philosophy-story";
+import { PhilosophyMedia } from "./philosophy-media";
 import styles from "./philosophy.module.css";
 
 export function PhilosophySection() {
@@ -41,19 +41,11 @@ export function PhilosophySection() {
               <div
                 className={styles.layer}
                 data-philosophy-layer
+                data-philosophy-scene={chapter.sceneId}
+                data-asset-state={chapter.visual ? "configured" : "pending"}
                 key={chapter.title}
               >
-                {chapter.visual && (
-                  <Image
-                    src={chapter.visual.src}
-                    width={chapter.visual.width}
-                    height={chapter.visual.height}
-                    alt=""
-                    sizes="(max-width: 900px) 0px, 44vw"
-                    loading="lazy"
-                    style={{ objectPosition: chapter.visual.position }}
-                  />
-                )}
+                <PhilosophyMedia chapter={chapter} variant="stage" />
                 <span className={styles.number}>
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -77,6 +69,7 @@ export function PhilosophySection() {
             <article
               className={styles.chapter}
               data-philosophy-chapter
+              data-scene-id={chapter.sceneId}
               key={chapter.title}
               aria-labelledby={`philosophy-chapter-${index}`}
             >
@@ -85,6 +78,22 @@ export function PhilosophySection() {
               </span>
               <h3 id={`philosophy-chapter-${index}`}>{chapter.title}</h3>
               <p>{chapter.text}</p>
+              {chapter.visual && (
+                <>
+                  <figure
+                    className={styles.inlinePanel}
+                    data-philosophy-static-scene={chapter.sceneId}
+                  >
+                    <PhilosophyMedia chapter={chapter} variant="inline" />
+                    <span className={styles.inlineNumber} aria-hidden="true">
+                      0{index + 1}
+                    </span>
+                  </figure>
+                  <span className={styles.imageDescription}>
+                    {chapter.visual.alt}
+                  </span>
+                </>
+              )}
             </article>
           ))}
         </div>

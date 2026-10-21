@@ -1,0 +1,124 @@
+.section {
+  padding-top: clamp(64px, 7.5vw, 120px);
+  padding-bottom: clamp(60px, 6.5vw, 104px);
+}
+.section .label {
+  margin-bottom: clamp(42px, 6vw, 88px);
+}
+.section .heading {
+  font-size: clamp(38px, 6.15vw, 96px);
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+}
+.section .heading > span {
+  display: block;
+  color: var(--bg);
+}
+.section .heading > span:last-child {
+  margin-left: 8%;
+  color: #72777d;
+}
+.introduction {
+  max-width: 29ch;
+  margin: clamp(36px, 5vw, 76px) 0 clamp(40px, 5vw, 76px) 8%;
+  font-size: clamp(21px, 2.1vw, 31px);
+  line-height: 1.5;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+.figure {
+  margin: 0 0 clamp(40px, 5vw, 72px);
+  aspect-ratio: 2.05;
+  overflow: hidden;
+  background: var(--bg);
+}
+.figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--essence-focus, center);
+}
+.narrative {
+  border-top: 1px solid #08090b26;
+  padding-top: clamp(28px, 3vw, 44px);
+}
+.body {
+  max-width: 48ch;
+  width: 46%;
+  margin-left: auto;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.8;
+  color: #4d535b;
+}
+.note {
+  margin-top: 28px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #555b63;
+}
+.closing {
+  border-top: 1px solid #08090b26;
+  margin-top: clamp(44px, 6vw, 84px);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.13em;
+}
+.closing svg {
+  margin-left: auto;
+}
+@media (max-width: 900px) {
+  .figure {
+    aspect-ratio: 1.8;
+  }
+  .section .heading {
+    font-size: clamp(38px, 6.5vw, 58px);
+  }
+  .body {
+    width: 54%;
+  }
+  .introduction {
+    max-width: 30ch;
+  }
+}
+@media (max-width: 600px) {
+  .section .heading {
+    font-size: clamp(29px, 8vw, 44px);
+    letter-spacing: -0.05em;
+  }
+  .section .heading > span:last-child {
+    margin-left: 5%;
+    margin-top: 7px;
+  }
+  .introduction {
+    margin-left: 5%;
+    font-size: 21px;
+    max-width: 27ch;
+  }
+  .body {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-size: 14px;
+  }
+  .note {
+    margin-top: 24px;
+    max-width: 28ch;
+  }
+  .figure {
+    aspect-ratio: 1.2;
+  }
+  .figure img {
+    object-position: var(--essence-mobile-focus, center);
+  }
+  .closing {
+    font-size: 9px;
+    gap: 16px;
+    letter-spacing: 0.1em;
+  }
+}

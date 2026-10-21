@@ -18,7 +18,7 @@ test("narrativa coordena palco e capítulos, inclusive ao rolar para trás", asy
       elements.map((element) => element.getAttribute("data-philosophy-scene")),
     ),
   ).toEqual(["cockpit", "engineering", "finish"]);
-  await expect(root.locator('[data-asset-state="pending"]')).toHaveCount(3);
+  await expect(root.locator('[data-asset-state="configured"]')).toHaveCount(3);
 
   for (const index of [0, 1, 2, 1, 0]) {
     await chapters
@@ -49,7 +49,31 @@ test("narrativa coordena palco e capítulos, inclusive ao rolar para trás", asy
       () => document.documentElement.scrollWidth > innerWidth,
     ),
   ).toBe(false);
-  await expect(root.locator("img, canvas")).toHaveCount(0);
+  await expect(root.locator("canvas")).toHaveCount(0);
+  const panels =
+    page.viewportSize()!.width > 900
+      ? root.locator("[data-philosophy-layer]")
+      : root.locator("[data-philosophy-static-scene]");
+  for (let index = 0; index < 3; index++) {
+    const panel = panels.nth(index);
+    await chapters.nth(index).scrollIntoViewIfNeeded();
+    await expect(panel).toBeVisible();
+    await expect
+      .poll(() =>
+        panel
+          .locator("img")
+          .evaluate(
+            (image: HTMLImageElement) =>
+              image.complete && image.naturalWidth > 0,
+          ),
+      )
+      .toBe(true);
+    const source = await panel
+      .locator("img")
+      .evaluate((image: HTMLImageElement) => image.currentSrc);
+    expect(source).toContain(["cockpit", "engineering", "finish"][index]);
+    expect(source).not.toContain("original.png");
+  }
   expect(errors).toEqual([]);
 });
 
@@ -76,6 +100,12 @@ test("redução de movimento desfaz o palco animado e mantém leitura completa",
     "position",
     "relative",
   );
+  for (const panel of await root
+    .locator("[data-philosophy-static-scene]")
+    .all()) {
+    await expect(panel).toBeVisible();
+    await expect(panel.locator("picture")).toHaveCSS("transform", "none");
+  }
   await page.evaluate(() => {
     if (document.activeElement instanceof HTMLElement)
       document.activeElement.blur();
@@ -86,7 +116,7 @@ test("redução de movimento desfaz o palco animado e mantém leitura completa",
   });
 });
 
-test("conteúdo institucional funciona sem JavaScript e sem assets adicionais", async ({
+test("conteúdo e três fotografias funcionam sem JavaScript", async ({
   browser,
   baseURL,
 }) => {
@@ -120,7 +150,23 @@ test("conteúdo institucional funciona sem JavaScript e sem assets adicionais", 
         { exact: true },
       ),
     ).toBeVisible();
-    await expect(section.locator("img, canvas")).toHaveCount(0);
+    await expect(section.locator("canvas")).toHaveCount(0);
+    const panels = section.locator("[data-philosophy-static-scene]");
+    await expect(panels).toHaveCount(3);
+    for (const panel of await panels.all()) {
+      await panel.scrollIntoViewIfNeeded();
+      await expect(panel).toBeVisible();
+      await expect
+        .poll(() =>
+          panel
+            .locator("img")
+            .evaluate(
+              (image: HTMLImageElement) =>
+                image.complete && image.naturalWidth > 0,
+            ),
+        )
+        .toBe(true);
+    }
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,

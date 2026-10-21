@@ -2,7 +2,17 @@
 
 ## Estado real
 
-Infraestrutura preparada; **integração fotográfica pendente dos três assets aprovados**. O repositório contém apenas a imagem ampla do hero e o macro de A Essência. Nenhum deles foi reutilizado nesta seção, nenhuma imagem externa foi baixada e nenhum modelo 3D foi criado. Os três campos `visual` permanecem `null`; o site mantém a composição tipográfica enquanto os assets não chegam. Não são exibidos painéis vazios como resultado final.
+Três fotografias integradas exclusivamente em Nossa Filosofia, a partir do ZIP `valetto-filosofia-imagens.zip` fornecido pelo responsável do projeto. O ZIP contém três PNGs de 1672 × 941 px, sem documentos de licença ou autoria. O responsável confirmou nesta conversa que são imagens geradas por IA e autorizou o uso no site Valetto. Não se presume licença de terceiros, exclusividade, autoria humana ou correspondência a um GLB.
+
+Os PNGs recebidos foram preservados sem alterações em `public/media/philosophy/*-original.png`. A apresentação usa apenas WebPs independentes, sem reutilizar o macro da Essência:
+
+| Cena        | Original no ZIP                                                                | WebP desktop / mobile  |
+| ----------- | ------------------------------------------------------------------------------ | ---------------------- |
+| cockpit     | `cockpit_premium_de_motocicleta_aventureira.png`                               | 103.086 / 44.876 bytes |
+| engineering | arquivo com prefixo `detalhes_mec` (nome com acentuação mal codificada no ZIP) | 123.130 / 59.952 bytes |
+| finish      | `close_da_frente_de_moto_de_aventura.png`                                      | 169.066 / 68.468 bytes |
+
+WebPs desktop mantêm 1672 × 941 px; mobile usa 1040 × 585 px. Não houve ampliação artificial. A série completa pesa aproximadamente 386 KiB em desktop ou 169 KiB em mobile antes da negociação de formatos/tamanhos do Next Image. Os originais não são solicitados pela interface.
 
 ## Composição e entrega dos assets
 
@@ -14,20 +24,13 @@ Infraestrutura preparada; **integração fotográfica pendente dos três assets 
 
 Direção comum: grafite e preto, iluminação cinematográfica de estúdio, ausência de logos e coerência de materiais/temperatura de luz. Idealmente produzir a série a partir da mesma referência física ou visual, sem afirmar continuidade de modelo que não esteja comprovada.
 
-Fornecer três arquivos independentes, preferencialmente em ZIP:
-
-- PNG/JPG original e WebP otimizado; mínimo recomendado de 2000px de largura (ideal 2400px ou mais).
-- Arquivos para enquadramento desktop aproximadamente 4:3 e mobile 1,35:1, ou composição ampla que permita ambos sem cortar o assunto. Cada cena admite foco independente e um arquivo mobile dedicado.
-- Procedência e autorização de uso; registrar geração por IA quando aplicável, sem inventar autoria/licença nem associação a um GLB.
-- Orçamento inicial proposto: até 250KB para cada WebP desktop e até 150KB para mobile; validar qualidade real de textura e metal antes de reduzir peso.
-
-Os enquadramentos definitivos, o contraste sobre os números e a qualidade da série dependem desses arquivos e ainda não foram aprovados.
+Os arquivos recebidos têm largura inferior aos 2000px inicialmente recomendados, mas são suficientes para o painel real (cerca de 540px CSS no desktop de 1440px). Mantida a resolução original. O enquadramento usa foco próprio por cena: cockpit central/superior; engenharia central; farol deslocado à direita, preservando a assinatura luminosa. A numeração permanece monumental e o gradiente inferior discreto oferece contraste.
 
 ## Arquitetura
 
 `src/lib/philosophy-content.ts` identifica explicitamente `cockpit`, `engineering` e `finish`, preservando os textos. `PhilosophyVisual` aceita caminho/dimensões/posição desktop, descrição acessível, procedência, permissão e, opcionalmente, arquivo/dimensões/posição mobile.
 
-`PhilosophyMedia` centraliza a entrega de imagens para os três painéis do palco e os três painéis equivalentes nos artigos. O número monumental não é substituído nem reduzido para uma pequena legenda. Uma camada escura discreta na base prepara contraste para a numeração; o acabamento final precisa ser afinado com as imagens reais.
+`PhilosophyMedia` centraliza a entrega de imagens para os três painéis do palco e os três painéis equivalentes nos artigos. O número monumental não é substituído nem reduzido para uma pequena legenda. Uma camada escura discreta na base prepara contraste para a numeração; os três arquivos reais foram usados para ajustar o foco.
 
 No desktop com movimento permitido e JavaScript, os painéis sticky compartilham a timeline de números, nomes e progresso. As imagens podem fazer uma aproximação muito discreta de 1,5%, sem câmera falsa ou simulação 3D. A identidade da cena mantém a animação no capítulo correto mesmo quando apenas parte dos assets estiver configurada.
 
@@ -37,8 +40,8 @@ As imagens são decorativas em relação ao texto institucional; sua descrição
 
 ## Verificação
 
-Build, lint, TypeScript, formatação e os 42 testes Playwright do projeto passaram na configuração final sem fotografias. Além da suíte, foram executadas cinco verificações com três fixtures SVG locais explicitamente marcadas como testes: desktop sem JavaScript, mobile sem JavaScript, movimento reduzido, mobile com JavaScript e palco sticky com avanço/retorno e mudança para mobile. Confirmaram três fontes independentes, carregamento das imagens, apresentação estática e ausência de canvas/overflow. As fixtures e a configuração temporária foram removidas, e o build final foi refeito com `visual: null`.
+A suíte verifica os arquivos reais: três cenas configuradas, avanço/retorno 01→02→03→02→01, imagens carregadas com fontes independentes, nenhuma solicitação do PNG original, ausência de canvas/overflow, painéis sem JavaScript e redução de movimento. Build, lint, TypeScript, formatação e os 42 testes Playwright passaram após a integração. Os três PNGs originais foram conferidos byte a byte contra os arquivos recebidos.
 
-Esses testes validam entrega e comportamento, **não qualidade fotográfica ou desempenho com assets finais**. A gravação entregue demonstra apenas os três momentos estruturais, ainda sem fotografias. Core Web Vitals em produção e dispositivos físicos não foram medidos.
+Capturas revisadas em 1440 × 900, 768 × 1024 e 390 × 844, sem erros de página nem overflow horizontal. Gravação produzida com avanço e retorno entre os três momentos reais. Core Web Vitals em produção e dispositivos físicos não são medidos pelo teste local.
 
 Hero, Essência, Como Funciona e demais seções preservados. Nenhum push ou deploy nesta etapa.

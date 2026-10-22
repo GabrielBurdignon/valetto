@@ -368,3 +368,26 @@
     transform: none !important;
   }
 }
+
+/* Fit the full sticky stage on short desktop viewports without clipping its
+   index, scene names or progress. Standard approved viewports are unchanged. */
+@media (min-width: 901px) and (max-height: 540px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] {
+    --philosophy-plate-height: max(120px, calc(100svh - 180px));
+  }
+  .story[data-enhanced="true"] .visual {
+    top: 18px;
+  }
+  .story[data-enhanced="true"] .plate {
+    margin: 14px 0 18px;
+  }
+  .story[data-enhanced="true"] .number {
+    font-size: min(25vw, calc((var(--philosophy-plate-height) - 36px) / 0.95));
+  }
+  .story[data-enhanced="true"] .chapterNames {
+    min-height: 40px;
+  }
+  .story[data-enhanced="true"] .progress {
+    margin-top: 14px;
+  }
+}

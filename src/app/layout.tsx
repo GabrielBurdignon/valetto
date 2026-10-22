@@ -1,9 +1,10 @@
+import { brand } from "@/lib/brand";
 import type { Metadata, Viewport } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 export const metadata: Metadata = {
-  metadataBase: new URL("https://valetto.com.br"),
+  metadataBase: new URL(brand.site),
   title: {
     default: "VALETTO — Motorcycle Concierge em Belo Horizonte",
     template: "%s | VALETTO",

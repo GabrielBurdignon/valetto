@@ -1046,3 +1046,20 @@ section[id] {
     transform: translate3d(0, 0, 0);
   }
 }
+
+/* Native links remain available when the mobile controller cannot run. */
+.no-js-nav {
+  display: none;
+}
+@media (max-width: 600px) {
+  .no-js-nav {
+    display: grid;
+    padding: 12px var(--gutter);
+    background: var(--secondary);
+    border-bottom: 1px solid var(--line);
+  }
+  .no-js-nav a {
+    padding: 14px 0;
+    font-size: 14px;
+  }
+}

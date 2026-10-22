@@ -73,7 +73,8 @@ export function HeroPoster({ asset }: { asset: HeroPosterAsset }) {
             {asset.mobileSrc && (
               <source
                 media="(max-width: 900px)"
-                srcSet={asset.mobileSrc}
+                srcSet={asset.mobileSrcSet || asset.mobileSrc}
+                sizes={asset.mobileSizes}
                 width={asset.mobileWidth}
                 height={asset.mobileHeight}
               />

@@ -64,3 +64,17 @@ test("atalho de teclado e redução de movimento", async ({ page }) => {
     ),
   ).toBe("auto");
 });
+
+test("atalho transfere foco ao conteúdo principal", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  await expect(
+    page.getByRole("link", { name: "Pular para o conteúdo" }),
+  ).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("main")).toBeFocused();
+  await page.goto("/privacidade");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("main")).toBeFocused();
+});

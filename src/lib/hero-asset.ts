@@ -16,6 +16,8 @@ export type HeroPosterAsset = {
   width: number;
   height: number;
   mobileSrc?: string;
+  mobileSrcSet?: string;
+  mobileSizes?: string;
   mobileWidth?: number;
   mobileHeight?: number;
   original: string;
@@ -29,6 +31,9 @@ export const heroPosterAsset: HeroPosterAsset | null = {
   width: 1672,
   height: 941,
   mobileSrc: "/media/hero/motorcycle-mobile.webp",
+  mobileSrcSet:
+    "/media/hero/motorcycle-mobile-640.webp 640w, /media/hero/motorcycle-mobile.webp 920w",
+  mobileSizes: "(max-width: 600px) 80vw, 48vw",
   mobileWidth: 920,
   mobileHeight: 941,
   original: "/media/hero/motorcycle-original.png",

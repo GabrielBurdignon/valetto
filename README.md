@@ -34,7 +34,7 @@ Neste ambiente, use o navegador já instalado (o download externo é bloqueado):
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-Os testes iniciam o servidor de produção na porta 3100; execute o build antes. Cobrem navegação, menu móvel, privacidade e ausência de overflow em desktop/tablet/mobile. Metas de Core Web Vitals ainda não medidas.
+Os testes iniciam o servidor de produção na porta 3100; execute o build antes. Cobrem navegação, menu móvel, privacidade e ausência de overflow em desktop/tablet/mobile. A auditoria consolidada inclui medições Lighthouse locais; veja `docs/AUDIT-2026-10-21.md` para resultados, limitações e pendências. Core Web Vitals de campo ainda não foram medidos.
 
 ## Escopo
 

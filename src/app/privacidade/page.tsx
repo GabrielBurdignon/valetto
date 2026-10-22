@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
-export const metadata: Metadata = { title: "Privacidade" };
+export const metadata: Metadata = {
+  title: "Privacidade",
+  description:
+    "Informações de privacidade do website de apresentação da Valetto, links externos e próximos passos antes da coleta de dados.",
+  alternates: { canonical: "/privacidade" },
+  openGraph: {
+    title: "Privacidade | VALETTO",
+    description:
+      "Privacidade e transparência no website de apresentação da Valetto.",
+    url: "/privacidade",
+    siteName: "VALETTO",
+    locale: "pt_BR",
+    type: "website",
+    images: ["/opengraph-image"],
+  },
+};
 export default function Privacy() {
   return (
-    <main id="conteudo" className="legal section-pad">
+    <main id="conteudo" tabIndex={-1} className="legal section-pad">
       <p className="eyebrow">VALETTO / TRANSPARÊNCIA</p>
       <h1>Privacidade.</h1>
       <p>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ExperienceSection } from "@/components/experience/experience-section";
 import { ProcessSection } from "@/components/process/process-section";
 import { PhilosophySection } from "@/components/philosophy/philosophy-section";
@@ -6,9 +7,10 @@ import { HeroVisual } from "@/components/hero/hero-visual";
 import { motorcycleAsset } from "@/lib/hero-asset";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default function Home() {
   return (
-    <main id="conteudo">
+    <main id="conteudo" tabIndex={-1}>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-topline">
           <span className="eyebrow">

@@ -56,11 +56,48 @@ export function HeroPoster({ asset }: { asset: HeroPosterAsset }) {
         // A failed animation chunk must never hide the product image or CTA.
       }
     };
-    void setup();
-    motion.addEventListener("change", setup);
+    let disarm: (() => void) | undefined;
+    const prepare = () => {
+      disarm?.();
+      revert?.();
+      revert = undefined;
+      generation++;
+      if (motion.matches) return;
+      if (window.scrollY > 0) {
+        void setup();
+        return;
+      }
+      // CSS handles the approved entrance. Scroll machinery is unnecessary at rest.
+      const onIntent = (event: Event) => {
+        if (
+          event instanceof KeyboardEvent &&
+          ![
+            "ArrowDown",
+            "ArrowUp",
+            "PageDown",
+            "PageUp",
+            "Home",
+            "End",
+            " ",
+          ].includes(event.key)
+        )
+          return;
+        disarm?.();
+        void setup();
+      };
+      const events = ["wheel", "touchstart", "scroll", "keydown"];
+      events.forEach((event) =>
+        window.addEventListener(event, onIntent, { passive: true }),
+      );
+      disarm = () =>
+        events.forEach((event) => window.removeEventListener(event, onIntent));
+    };
+    prepare();
+    motion.addEventListener("change", prepare);
     return () => {
       disposed = true;
-      motion.removeEventListener("change", setup);
+      motion.removeEventListener("change", prepare);
+      disarm?.();
       revert?.();
     };
   }, [loaded]);

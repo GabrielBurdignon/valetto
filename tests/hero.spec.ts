@@ -115,13 +115,13 @@ test("parallax discreto acompanha scroll e é desativado ao reduzir movimento", 
       (element) =>
         new DOMMatrixReadOnly(getComputedStyle(element).transform).m42,
     );
-  // Waiting for the transform checks the real asynchronous GSAP initialization.
+  // Parallax code now loads on scroll intent; the CSS entrance works at rest.
+  await page.evaluate(() => window.scrollTo({ top: 250, behavior: "instant" }));
   await expect
     .poll(() =>
       layer.evaluate((element) => element.getAttribute("style") || ""),
     )
     .toContain("transform");
-  await page.evaluate(() => window.scrollTo({ top: 250, behavior: "instant" }));
   await expect.poll(offset).toBeLessThan(-0.1);
   expect(await offset()).toBeGreaterThanOrEqual(-12);
   await page.emulateMedia({ reducedMotion: "reduce" });

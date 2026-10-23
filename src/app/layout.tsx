@@ -1,7 +1,10 @@
 import { brand } from "@/lib/brand";
 import type { Metadata, Viewport } from "next";
+import { HeaderBrand } from "@/components/brand/header-brand";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { inter } from "@/lib/fonts";
+import "./font-fallback.css";
 import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(brand.site),
@@ -28,11 +31,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className={inter.variable}>
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>
-        <SiteHeader />
+        <SiteHeader brand={<HeaderBrand />} />
         {children}
         <SiteFooter />
       </body>

@@ -1,17 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 const links = [
   { href: "/#essencia", text: "A essência" },
+  { href: "/#filosofia", text: "Nossa filosofia" },
   { href: "/#como-funciona", text: "Como funciona" },
   { href: "/#servicos", text: "A experiência" },
 ];
-export function SiteHeader() {
+export function SiteHeader({ brand }: { brand: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const header = useRef<HTMLElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    const desktop = matchMedia("(min-width: 601px)");
+    const desktop = matchMedia("(min-width: 1101px)");
     const onLayout = () => {
       if (desktop.matches) setOpen(false);
     };
@@ -26,18 +28,37 @@ export function SiteHeader() {
         menuButton.current?.focus();
       }
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !header.current?.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
   }, [open]);
   return (
     <>
-      <header className="site-header">
+      <header
+        ref={header}
+        className="site-header"
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setOpen(false);
+        }}
+      >
         <Link
           className="wordmark"
           href="/"
           aria-label="VALETTO Motorcycle Concierge, início"
         >
-          VALETTO<span> MOTORCYCLE CONCIERGE</span>
+          {brand}
         </Link>
         <nav className="desktop-nav" aria-label="Navegação principal">
           {links.map((l) => (
@@ -50,6 +71,7 @@ export function SiteHeader() {
           O próximo capítulo <ArrowUpRight size={15} />
         </Link>
         <button
+          type="button"
           ref={menuButton}
           className="menu-button"
           aria-label={open ? "Fechar menu" : "Abrir menu"}

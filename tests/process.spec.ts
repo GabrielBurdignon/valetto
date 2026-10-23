@@ -1,5 +1,71 @@
 import { test, expect } from "@playwright/test";
 
+test("headline mobile equilibra frases sem reduzir fonte ou deslocar a timeline", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const cases = [
+    {
+      width: 360,
+      lines: ["Você entrega", "a chave.", "Nós cuidamos", "do resto."],
+    },
+    {
+      width: 390,
+      lines: ["Você entrega a chave.", "Nós cuidamos", "do resto."],
+    },
+    { width: 430, lines: ["Você entrega a chave.", "Nós cuidamos do resto."] },
+  ];
+  for (const { width, lines } of cases) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+    const title = page.locator("#process-title");
+    const measure = () =>
+      title.evaluate((el) => {
+        const range = document.createRange();
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const rows = new Map<number, string>();
+        let node;
+        while ((node = walker.nextNode())) {
+          for (let i = 0; i < (node.textContent?.length || 0); i++) {
+            range.setStart(node, i);
+            range.setEnd(node, i + 1);
+            const rect = range.getBoundingClientRect();
+            if (!rect.width || !rect.height) continue;
+            const y = Math.round(rect.top);
+            rows.set(y, (rows.get(y) || "") + node.textContent![i]);
+          }
+        }
+        const section = el.closest("section")!;
+        return {
+          lines: [...rows.values()].map((line) => line.trim()),
+          size: getComputedStyle(el).fontSize,
+          height: el.getBoundingClientRect().height,
+          timelineTop:
+            section.querySelector("ol")!.getBoundingClientRect().top -
+            section.getBoundingClientRect().top,
+        };
+      });
+    const balanced = await measure();
+    expect(balanced.lines).toEqual(lines);
+    expect(balanced.size).toBe("36px");
+    // Compare against the prior automatic wrapping in the same loaded font.
+    const previous = await page.addStyleTag({
+      content:
+        "#process-title { text-wrap: wrap; } #process-title > span { display: inline; }",
+    });
+    const original = await measure();
+    expect(balanced.height).toBe(original.height);
+    expect(balanced.timelineTop).toBe(original.timelineTop);
+    await previous.evaluate((el) => el.parentNode?.removeChild(el));
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > innerWidth,
+      ),
+    ).toBe(false);
+  }
+});
+
 const titles = ["Solicite", "Combine", "Deixe conosco", "Receba sua moto"];
 test("linha coordena quatro etapas e reverte sem bloquear a rolagem", async ({
   page,

@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Valetto Scene Inter";
+  src: url("../../tipografia/fonts/inter-latin-wght-normal.woff2")
+    format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Only family changes. Existing section styles determine every other measure. */
+.inter {
+  font-family: "Valetto Scene Inter", Arial, Helvetica, sans-serif;
+}
+
+.system {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.notes {
+  background: var(--paper);
+  color: var(--bg);
+  padding: 64px var(--gutter);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.notes h2 {
+  font-size: clamp(28px, 3vw, 44px);
+  margin: 24px 0;
+}
+
+.notes p {
+  max-width: 76ch;
+  margin: 20px 0;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.links a {
+  padding: 12px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.links a[aria-current="page"] {
+  font-weight: 700;
+}

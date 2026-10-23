@@ -1,0 +1,39 @@
+/* Generated from the approved Inter Latin file; see scripts/prepare-inter.py. */
+@font-face {
+  font-family: "Valetto Inter Fallback";
+  src:
+    local("Arial"), local("ArialMT"), local("Liberation Sans"),
+    local("Helvetica");
+  font-style: normal;
+  font-weight: 400;
+  size-adjust: 106.19427%;
+  ascent-override: 91.22432%;
+  descent-override: 22.71412%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Valetto Inter Fallback";
+  src:
+    local("Arial"), local("ArialMT"), local("Liberation Sans"),
+    local("Helvetica");
+  font-style: normal;
+  font-weight: 500;
+  size-adjust: 107.22798%;
+  ascent-override: 90.34489%;
+  descent-override: 22.49515%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Valetto Inter Fallback";
+  src:
+    local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"),
+    local("Helvetica Bold");
+  font-style: normal;
+  font-weight: 600;
+  size-adjust: 101.19032%;
+  ascent-override: 95.73545%;
+  descent-override: 23.83735%;
+  line-gap-override: 0%;
+}

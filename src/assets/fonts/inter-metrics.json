@@ -1,0 +1,38 @@
+{
+  "source": "src/app/revisao/tipografia/fonts/inter-latin-wght-normal.woff2",
+  "sourceSha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62",
+  "file": "src/assets/fonts/inter-latin-400-600.woff2",
+  "sha256": "bb92a1a22e9d857ababffb2127c0ad2d7146a6652cd4d4049a73c13b3387170b",
+  "sourceBytes": 48256,
+  "bytes": 35424,
+  "license": "SIL OFL 1.1",
+  "weights": [400, 500, 600],
+  "subset": "Original Fontsource Latin; no further character removal",
+  "portugueseCoverageVerified": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÁÀÂÃÉÊÍÓÔÕÚÜÇáàâãéêíóôõúüç0123456789“”‘’.,:;!?—–()/%&@",
+  "fallbackMetrics": [
+    {
+      "weight": 400,
+      "sizeAdjust": 106.19427,
+      "ascentOverride": 91.22432,
+      "descentOverride": 22.71412,
+      "lineGapOverride": 0.0,
+      "maxAdvanceDeltaFromSourceUnits": 0
+    },
+    {
+      "weight": 500,
+      "sizeAdjust": 107.22798,
+      "ascentOverride": 90.34489,
+      "descentOverride": 22.49515,
+      "lineGapOverride": 0.0,
+      "maxAdvanceDeltaFromSourceUnits": 1
+    },
+    {
+      "weight": 600,
+      "sizeAdjust": 101.19032,
+      "ascentOverride": 95.73545,
+      "descentOverride": 23.83735,
+      "lineGapOverride": 0.0,
+      "maxAdvanceDeltaFromSourceUnits": 0
+    }
+  ]
+}

@@ -94,3 +94,15 @@
     transform: none !important;
   }
 }
+
+/* Keep the approved size; balance each phrase instead of isolating “resto.”. */
+@supports (text-wrap: balance) {
+  @media (max-width: 600px) {
+    .section h2 {
+      text-wrap: balance;
+    }
+    .section h2 span {
+      display: block;
+    }
+  }
+}

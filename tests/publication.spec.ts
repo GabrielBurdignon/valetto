@@ -86,6 +86,7 @@ test("menu e links continuam utilizáveis no mobile sem JavaScript", async ({
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeHidden();
     for (const [name, hash] of [
       ["A essência", "essencia"],
+      ["Nossa filosofia", "filosofia"],
       ["Como funciona", "como-funciona"],
       ["A experiência", "servicos"],
       ["Acompanhe o lançamento", "lancamento"],

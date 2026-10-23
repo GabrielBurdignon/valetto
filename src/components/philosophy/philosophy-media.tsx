@@ -40,7 +40,9 @@ export function PhilosophyMedia({
           height={asset.height}
           alt=""
           loading="lazy"
-          sizes={variant === "stage" ? "44vw" : "(max-width: 900px) 88vw, 40vw"}
+          sizes={
+            variant === "stage" ? "100vw" : "(max-width: 900px) 100vw, 40vw"
+          }
         />
       </picture>
     </div>

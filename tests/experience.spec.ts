@@ -177,3 +177,51 @@ test("foto só recebe movimento depois de carregar e decodificar", async ({
     release();
   }
 });
+
+test("panorama abre e fecha com a rolagem e preserva cobertura das bordas", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const frame = page.locator("[data-experience-frame]");
+  const story = page.locator("[data-experience-story]");
+  await frame.scrollIntoViewIfNeeded();
+  await expect(story).toHaveAttribute("data-scene-ready", "true");
+  const move = (progress: number) =>
+    frame.evaluate((element, progress) => {
+      const rect = element.getBoundingClientRect(),
+        top = rect.top + scrollY;
+      const start = top - innerHeight * 0.96,
+        end = top + rect.height / 2 - innerHeight * 0.55;
+      scrollTo({ top: start + (end - start) * progress, behavior: "instant" });
+    }, progress);
+  const inset = () =>
+    frame.evaluate((element) =>
+      parseFloat(getComputedStyle(element).clipPath.slice(6)),
+    );
+  for (const progress of [0.15, 0.9, 0.15]) {
+    await move(progress);
+    if (progress < 0.5) await expect.poll(inset).toBeGreaterThan(3);
+    else await expect.poll(inset).toBeLessThan(1.5);
+  }
+  await frame.evaluate((element) =>
+    scrollTo({
+      top: element.getBoundingClientRect().bottom + scrollY - innerHeight * 0.3,
+      behavior: "instant",
+    }),
+  );
+  await expect
+    .poll(() =>
+      frame.evaluate(
+        (element) =>
+          element.querySelector("picture")!.getBoundingClientRect().bottom -
+          element.getBoundingClientRect().bottom,
+      ),
+    )
+    .toBeGreaterThanOrEqual(-1);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(frame).toHaveCSS("clip-path", "none");
+  await expect(page.locator("[data-experience-handoff]")).toHaveCSS(
+    "transform",
+    "none",
+  );
+});

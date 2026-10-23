@@ -131,3 +131,41 @@ test("timeline seguinte recalcula limites após uma ativação tardia acima dela
     release();
   }
 });
+
+test("decodificação tardia das fotos não desloca a seção de processo", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route(
+    (url) =>
+      url.pathname === "/_next/image" &&
+      (url.searchParams.get("url") || "").includes("/media/philosophy/"),
+    async (route) => {
+      await gate;
+      await route.continue();
+    },
+  );
+  try {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    const process = page.locator("[data-process-timeline]");
+    await process.scrollIntoViewIfNeeded();
+    await expect(process).toHaveAttribute("data-enhanced", "true");
+    const position = () =>
+      process.evaluate(
+        (element) => element.getBoundingClientRect().top + scrollY,
+      );
+    const before = await position();
+    release();
+    await expect(page.locator("[data-philosophy-story]")).toHaveAttribute(
+      "data-enhanced",
+      "true",
+    );
+    expect(Math.abs((await position()) - before)).toBeLessThan(1);
+  } finally {
+    release();
+  }
+});

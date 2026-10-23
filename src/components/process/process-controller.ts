@@ -1,4 +1,4 @@
-/** Original approved motion, loaded progressively without a React boundary. */
+/** Progressive editorial process, loaded progressively without a React boundary. */
 export function mountProcess(host: HTMLDivElement) {
   if (typeof IntersectionObserver === "undefined") return;
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -31,8 +31,8 @@ export function mountProcess(host: HTMLDivElement) {
       const horizontal = desktop.matches;
       const context = gsap.context(() => {
         gsap.set(fills, horizontal ? { scaleX: 0 } : { scaleY: 0 });
-        gsap.set(copy, { opacity: 0.86 });
-        gsap.set(numbers, { color: "#a7adb5" });
+        gsap.set(copy, { opacity: 0.88, y: 12 });
+        gsap.set(numbers, { color: "#a7adb5", scale: 0.82, y: 16 });
         const timeline = gsap.timeline({
           scrollTrigger: {
             trigger: host,
@@ -61,18 +61,18 @@ export function mountProcess(host: HTMLDivElement) {
             )
             .to(
               numbers[index],
-              { color: "#f5f5f3", scale: 1.035, duration: 0.3, ease: "none" },
+              { color: "#f5f5f3", scale: 1, y: 0, duration: 0.3, ease: "none" },
               index,
             )
             .to(
               copy[index],
-              { opacity: 1, duration: 0.3, ease: "none" },
+              { opacity: 1, y: 0, duration: 0.35, ease: "none" },
               index,
             );
           if (index > 0)
             timeline.to(
               numbers[index - 1],
-              { color: "#b6bdc5", scale: 1, duration: 0.3, ease: "none" },
+              { color: "#b6bdc5", scale: 0.9, duration: 0.3, ease: "none" },
               index,
             );
         });

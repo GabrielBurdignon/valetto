@@ -406,3 +406,128 @@
   position: relative;
   top: auto;
 }
+
+/* A shared photographic stage replaces the split-column composition only after
+   enhancement. The semantic articles and static photo sequence remain intact. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] {
+    --philosophy-plate-height: clamp(
+      240px,
+      calc(100svh - var(--header-height) - 240px),
+      780px
+    );
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin-inline: calc(-1 * var(--gutter));
+  }
+  .story[data-enhanced="true"] .visual {
+    grid-area: 1 / 1;
+    align-self: start;
+    top: var(--header-clearance);
+  }
+  .story[data-enhanced="true"] .visualTop,
+  .story[data-enhanced="true"] .chapterNames,
+  .story[data-enhanced="true"] .progress {
+    margin-inline: var(--gutter);
+  }
+  .story[data-enhanced="true"] .plate {
+    margin-block: 22px 28px;
+  }
+  .story[data-enhanced="true"] .chapters {
+    grid-area: 1 / 1;
+    z-index: 2;
+    position: relative;
+    width: 35%;
+    margin: 0 var(--gutter) 0 auto;
+    border: 0;
+    padding: 0 0 48px;
+  }
+  .story[data-enhanced="true"] .chapter {
+    min-height: max(880px, 90svh);
+    padding: 56px 0;
+  }
+  .story[data-enhanced="true"] .chapter h3 {
+    font-size: clamp(36px, 3.5vw, 58px);
+  }
+  .story[data-enhanced="true"] .chapter p {
+    max-width: 32ch;
+    color: #d4d7dc;
+  }
+  .story[data-enhanced="true"] .stageMedia::after {
+    background:
+      linear-gradient(
+        90deg,
+        transparent 25%,
+        #08090b35 45%,
+        #08090be8 66%,
+        #08090bfa
+      ),
+      linear-gradient(0deg, #08090b80, transparent 38%);
+  }
+  .story[data-enhanced="true"] .number {
+    font-size: clamp(180px, 22vw, 340px);
+    padding-left: var(--gutter);
+  }
+}
+@media (max-width: 900px) {
+  .chapter {
+    max-width: none;
+  }
+  .inlinePanel {
+    order: -1;
+    width: calc(100% + var(--gutter) * 2);
+    margin: 0 calc(-1 * var(--gutter)) 36px;
+    aspect-ratio: 1.65;
+  }
+}
+@media (max-width: 600px) {
+  .inlinePanel {
+    aspect-ratio: 1.08;
+  }
+  .inlineNumber {
+    font-size: clamp(150px, 42vw, 200px);
+    left: var(--gutter);
+  }
+}
+@media (min-width: 901px) and (max-height: 540px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] {
+    --philosophy-plate-height: max(
+      80px,
+      calc(100svh - var(--header-height) - 150px)
+    );
+  }
+  .story[data-enhanced="true"] .visual {
+    top: calc(var(--header-height) + 12px);
+  }
+  .story[data-enhanced="true"] .plate {
+    margin-block: 14px 18px;
+  }
+  .story[data-enhanced="true"] .chapter {
+    padding-top: calc(56px + var(--header-height));
+  }
+  .story[data-enhanced="true"] .number {
+    font-size: min(20vw, calc((var(--philosophy-plate-height) - 36px) / 0.95));
+  }
+}
+@media (min-width: 901px) and (max-height: 540px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] .chapterNames,
+  .story[data-enhanced="true"] .progress {
+    width: calc(55% - var(--gutter));
+    margin-right: 0;
+  }
+}
+
+/* Reserve the same reading geometry before the deferred controller and decoded
+   photos arrive. Enhancing an earlier scene must not move later scroll targets. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .chapter {
+    min-height: max(880px, 90svh);
+    padding-block: 56px;
+  }
+  .chapters {
+    padding-bottom: 48px;
+  }
+  .inlinePanel {
+    max-height: min(46svh, 520px);
+  }
+}

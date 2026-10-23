@@ -21,11 +21,9 @@ export function ExperienceSection() {
           className={styles.headline}
           data-experience-heading
         >
-          A próxima revisão.
-          <br />
-          Sem reorganizar
-          <br />
-          <span>a sua vida.</span>
+          <span data-experience-line>A próxima revisão.</span>{" "}
+          <span data-experience-line>Sem reorganizar</span>{" "}
+          <span data-experience-line>a sua vida.</span>
         </h2>
         <div className={styles.scene} data-experience-scene>
           <figure className={styles.frame} data-experience-frame>
@@ -69,6 +67,11 @@ export function ExperienceSection() {
           novo serviço será apresentado quando estiver pronto.
         </p>
       </div>
+      <div
+        className={styles.handoff}
+        data-experience-handoff
+        aria-hidden="true"
+      />
     </section>
   );
 }

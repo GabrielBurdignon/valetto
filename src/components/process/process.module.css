@@ -106,3 +106,70 @@
     }
   }
 }
+
+/* One continuous editorial band, with large indices above the shared baseline. */
+.timeline {
+  --process-number-size: clamp(110px, 13vw, 200px);
+  margin-top: clamp(80px, 10vw, 160px);
+}
+.timeline li {
+  min-height: 430px;
+  padding-top: 0;
+  padding-bottom: 48px;
+}
+.number {
+  display: block;
+  font-size: var(--process-number-size);
+  line-height: 1;
+}
+.track {
+  top: calc(var(--process-number-size) + 24px);
+}
+.copy {
+  padding-top: 64px;
+}
+.copy h3 {
+  font-size: clamp(24px, 2.1vw, 32px);
+  margin: 0 0 20px;
+  font-weight: 400;
+}
+.copy p {
+  font-size: 15px;
+  max-width: 24ch;
+}
+@media (max-width: 900px) {
+  .timeline {
+    margin-top: 64px;
+  }
+  .timeline li {
+    grid-template-columns: clamp(92px, 15vw, 132px) minmax(0, 1fr);
+    min-height: 270px;
+    padding: 0 0 56px 24px;
+  }
+  .number {
+    font-size: clamp(76px, 13vw, 104px);
+  }
+  .track {
+    top: 0;
+  }
+  .copy {
+    padding-top: 8px;
+  }
+  .copy h3 {
+    font-size: clamp(23px, 3.2vw, 28px);
+    margin-top: 0;
+  }
+  .copy p {
+    font-size: 14px;
+    max-width: 36ch;
+  }
+}
+.number {
+  align-self: start;
+  transform-origin: left bottom;
+}
+@media (max-width: 900px) {
+  .number {
+    transform-origin: left top;
+  }
+}

@@ -1,4 +1,4 @@
-/** Original approved motion, loaded progressively without a React boundary. */
+/** Full-width photographic narrative, progressively loaded without scroll pinning. */
 export function mountPhilosophy(host: HTMLDivElement) {
   if (typeof IntersectionObserver === "undefined") return;
   let disposed = false;
@@ -20,6 +20,20 @@ export function mountPhilosophy(host: HTMLDivElement) {
       ]);
       if (disposed || motion.matches || current !== generation) return;
       gsap.registerPlugin(ScrollTrigger);
+      // Prime only the approaching desktop stage. Keep the complete static
+      // articles until every dissolve has a decoded photograph underneath it.
+      if (layout.matches) {
+        const images = [
+          ...host.querySelectorAll<HTMLImageElement>(
+            "[data-philosophy-layer] img",
+          ),
+        ];
+        images.forEach((image) => {
+          image.loading = "eager";
+        });
+        await Promise.all(images.map((image) => image.decode()));
+        if (disposed || motion.matches || current !== generation) return;
+      }
       const layers = host.querySelectorAll<HTMLElement>(
         "[data-philosophy-layer]",
       );
@@ -47,10 +61,7 @@ export function mountPhilosophy(host: HTMLDivElement) {
           "[data-philosophy-layer] picture",
         );
         if (desktop && photos.length)
-          gsap.set(photos, {
-            scale: desktop ? 1.015 : 1,
-            transformOrigin: "center",
-          });
+          gsap.set(photos, { scale: 1.075, transformOrigin: "center" });
         const timeline = gsap.timeline({
           scrollTrigger: {
             trigger: desktop ? chapters[0] : host,
@@ -70,8 +81,21 @@ export function mountPhilosophy(host: HTMLDivElement) {
             if (host.dataset.active !== active) host.dataset.active = active;
           },
         });
-        if (desktop && photos.length)
-          timeline.to(photos, { scale: 1, duration, ease: "none" }, 0);
+        if (desktop && photos.length) {
+          photos.forEach((photo, index) => {
+            timeline.fromTo(
+              photo,
+              { scale: 1.075, yPercent: 1.2 },
+              {
+                scale: 1.025,
+                yPercent: -1,
+                duration: index === 1 ? 1.5 : 0.75,
+                ease: "none",
+              },
+              index === 0 ? 0 : index - 0.75,
+            );
+          });
+        }
 
         if (!desktop)
           host
@@ -81,16 +105,16 @@ export function mountPhilosophy(host: HTMLDivElement) {
               if (!photo) return;
               gsap.fromTo(
                 photo,
-                { opacity: 0.82, y: 8 },
+                { scale: 1.075, yPercent: 1 },
                 {
-                  opacity: 1,
-                  y: 0,
+                  scale: 1.025,
+                  yPercent: -1,
                   ease: "none",
                   scrollTrigger: {
                     trigger: panel,
                     start: "top 92%",
-                    end: "top 55%",
-                    scrub: 0.45,
+                    end: "bottom top",
+                    scrub: 0.55,
                   },
                 },
               );
@@ -112,6 +136,20 @@ export function mountPhilosophy(host: HTMLDivElement) {
             timeline.to(
               layers[index - 1],
               { opacity: 0, y: -14, duration: transition, ease: "none" },
+              at,
+            );
+          }
+          if (desktop) {
+            timeline.fromTo(
+              layers[index].querySelector("span"),
+              { y: 22, scale: 0.96 },
+              { y: 0, scale: 1, duration: transition, ease: "none" },
+              at,
+            );
+            timeline.fromTo(
+              chapters[index].querySelector("h3"),
+              { x: 20 },
+              { x: 0, duration: transition, ease: "none" },
               at,
             );
           }

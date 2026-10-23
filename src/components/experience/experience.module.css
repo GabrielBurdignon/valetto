@@ -139,3 +139,123 @@
     transform: none !important;
   }
 }
+
+/* A wide photographic scene carries the service explanation; the expansion
+   vision stays outside the image. The final surface leads into the manifesto. */
+.section {
+  padding-bottom: 0;
+}
+.headline {
+  position: relative;
+  z-index: 2;
+  margin-bottom: calc(-1 * clamp(48px, 7vw, 110px));
+}
+.headline > span {
+  display: block;
+  color: var(--text);
+}
+.headline > span:nth-child(2) {
+  margin-left: 6%;
+}
+.headline > span:last-child {
+  margin-left: 18%;
+  color: var(--metal);
+}
+.frame {
+  aspect-ratio: auto;
+  height: clamp(620px, 92svh, 960px);
+}
+.frame::after {
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg),
+      transparent 24%,
+      transparent 72%,
+      var(--bg)
+    ),
+    linear-gradient(90deg, transparent 42%, #08090bd9 82%);
+}
+.editorial {
+  position: absolute;
+  left: 58%;
+  right: 0;
+  bottom: clamp(50px, 8vw, 128px);
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.description {
+  margin-top: 28px;
+}
+.description h3 {
+  font-size: clamp(28px, 2.6vw, 40px);
+  max-width: 24ch;
+}
+.description p {
+  color: #d4d7dc;
+  max-width: 42ch;
+}
+.future {
+  margin-top: clamp(56px, 7vw, 112px);
+}
+.handoff {
+  height: clamp(72px, 10svh, 120px);
+  margin: clamp(64px, 8vw, 128px) calc(-1 * var(--gutter)) 0;
+  background: var(--paper);
+  transform-origin: bottom;
+}
+@media (max-width: 900px) {
+  .headline {
+    margin-bottom: -40px;
+  }
+  .headline > span:nth-child(2) {
+    margin-left: 3%;
+  }
+  .headline > span:last-child {
+    margin-left: 10%;
+  }
+  .frame {
+    height: auto;
+    aspect-ratio: 1.25;
+  }
+  .frame::after {
+    background: linear-gradient(
+      180deg,
+      var(--bg),
+      transparent 20%,
+      transparent 80%,
+      var(--bg)
+    );
+  }
+  .editorial {
+    position: relative;
+    inset: auto;
+    padding-top: 32px;
+  }
+  .description {
+    margin-top: 22px;
+  }
+  .description h3 {
+    font-size: 30px;
+    max-width: 34ch;
+  }
+}
+@media (max-width: 600px) {
+  .headline {
+    font-size: clamp(36px, 9.1vw, 54px);
+    margin-bottom: -24px;
+  }
+  .headline > span:nth-child(2) {
+    margin-left: 0;
+  }
+  .headline > span:last-child {
+    margin-left: 8%;
+  }
+  .frame {
+    aspect-ratio: 1122 / 1402;
+  }
+  .description h3 {
+    font-size: 27px;
+  }
+}

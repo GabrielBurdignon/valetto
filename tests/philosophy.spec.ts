@@ -213,3 +213,32 @@ test("conteúdo e três fotografias funcionam sem JavaScript", async ({
     await context.close();
   }
 });
+
+test("cena panorâmica e texto permanecem separados em telas baixas", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 390 });
+  await page.goto("/");
+  const story = page.locator("[data-philosophy-story]");
+  for (const index of [0, 1, 2]) {
+    const chapter = story.locator("[data-philosophy-chapter]").nth(index);
+    await chapter.evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+    await expect(story).toHaveAttribute("data-enhanced", "true");
+    await chapter.evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+    const names = story.locator("[data-philosophy-name]");
+    const paragraph = (await chapter.locator("p").boundingBox())!;
+    for (const name of await names.all()) {
+      const bounds = (await name.boundingBox())!;
+      expect(bounds.x + bounds.width).toBeLessThan(paragraph.x);
+    }
+    const stage = (await story
+      .locator("[data-philosophy-visual]")
+      .boundingBox())!;
+    expect(stage.y).toBeGreaterThanOrEqual(96);
+    expect(stage.y + stage.height).toBeLessThanOrEqual(390);
+  }
+});

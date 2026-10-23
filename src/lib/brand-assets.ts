@@ -16,11 +16,18 @@ export type OfficialBrandAssets = {
   socialImage: OfficialBrandAsset | null;
 };
 
-/** Pending approval. Header slots retain the provisional mark while either asset is null. */
+const suppliedWhiteLogo: OfficialBrandAsset = {
+  src: "/media/brand/valetto-branca.webp",
+  width: 1983,
+  height: 793,
+  alt: "Valetto — Motorcycle Concierge e Transporte",
+};
+
+/** Official artwork supplied by the project owner; no reconstructed lettering. */
 export const officialBrandAssets: OfficialBrandAssets = {
-  headerDesktop: null,
-  headerCompact: null,
-  footer: null,
+  headerDesktop: suppliedWhiteLogo,
+  headerCompact: suppliedWhiteLogo,
+  footer: suppliedWhiteLogo,
   favicon: null,
   socialImage: null,
 };

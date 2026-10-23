@@ -3,7 +3,7 @@ import { officialBrandAssets } from "@/lib/brand-assets";
 
 type Application = "headerDesktop" | "headerCompact" | "footer";
 
-/** Prepared for Stage 2; unused until official artwork is supplied and approved. */
+/** Lossless artwork with native transparency and its original aspect ratio. */
 export function OfficialBrand({
   application,
   className,
@@ -15,6 +15,8 @@ export function OfficialBrand({
   if (!asset) return null;
   return (
     <Image
+      unoptimized
+      loading={application === "footer" ? "lazy" : "eager"}
       src={asset.src}
       width={asset.width}
       height={asset.height}

@@ -175,3 +175,21 @@
     margin-bottom: 48px;
   }
 }
+
+/* Shorter editorial pauses keep the product image and the next chapter connected. */
+.section {
+  padding-top: clamp(64px, 7vw, 104px);
+  padding-bottom: clamp(40px, 4vw, 64px);
+}
+.section .label {
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+.closing {
+  margin-top: clamp(32px, 4vw, 56px);
+}
+@media (max-width: 600px) {
+  .section {
+    padding-top: 56px;
+    padding-bottom: 40px;
+  }
+}

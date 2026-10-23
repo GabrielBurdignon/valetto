@@ -49,6 +49,23 @@ export function mountPhilosophy(host: HTMLDivElement) {
       const context = gsap.context(() => {
         const desktop = layout.matches;
         const duration = desktop ? 2 : 3;
+        const nextPhrase = document.querySelector("#process-title > span");
+        if (desktop && nextPhrase)
+          gsap.fromTo(
+            nextPhrase,
+            { x: 28 },
+            {
+              x: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: host,
+                start: "bottom 95%",
+                end: "bottom 42%",
+                scrub: 0.5,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
         gsap.set(layers, { opacity: 0, y: desktop ? 0 : 14 });
         gsap.set(layers[0], { opacity: 1, y: 0 });
         gsap.set(names, { opacity: 0.75 });

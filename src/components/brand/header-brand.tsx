@@ -1,8 +1,8 @@
 import { officialBrandAssets } from "@/lib/brand-assets";
 import { OfficialBrand } from "./official-brand";
 
-/** Keep the provisional identity until both responsive applications are approved.
- * This server-rendered slot adds no artwork or image loader to the client menu.
+/** Responsive official artwork stays in a server-rendered slot.
+ * The text fallback is used only when no approved artwork is configured.
  */
 export function HeaderBrand() {
   if (

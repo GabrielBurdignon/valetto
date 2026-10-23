@@ -443,7 +443,7 @@
     padding: 0 0 48px;
   }
   .story[data-enhanced="true"] .chapter {
-    min-height: max(880px, 90svh);
+    min-height: max(760px, 84svh);
     padding: 56px 0;
   }
   .story[data-enhanced="true"] .chapter h3 {
@@ -457,10 +457,10 @@
     background:
       linear-gradient(
         90deg,
-        transparent 25%,
-        #08090b35 45%,
-        #08090be8 66%,
-        #08090bfa
+        transparent 42%,
+        #08090b44 58%,
+        #08090bc9 76%,
+        #08090be8
       ),
       linear-gradient(0deg, #08090b80, transparent 38%);
   }
@@ -521,13 +521,30 @@
    photos arrive. Enhancing an earlier scene must not move later scroll targets. */
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
   .chapter {
-    min-height: max(880px, 90svh);
+    min-height: max(760px, 84svh);
     padding-block: 56px;
   }
   .chapters {
     padding-bottom: 48px;
   }
   .inlinePanel {
-    max-height: min(46svh, 520px);
+    max-height: min(34svh, 420px);
+  }
+}
+
+/* Tighter chapter joins, while preserving a stable static/enhanced geometry. */
+.section {
+  padding-top: clamp(56px, 5vw, 80px);
+  padding-bottom: clamp(40px, 4vw, 64px);
+}
+.label {
+  margin-bottom: clamp(32px, 3.5vw, 56px);
+}
+.introduction {
+  margin-bottom: clamp(36px, 4vw, 64px);
+}
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] .chapter p {
+    color: #e1e4e8;
   }
 }

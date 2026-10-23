@@ -48,6 +48,23 @@ export function mountHero(root: HTMLDivElement, layer: HTMLDivElement) {
         { y: -18, opacity: 0.8, duration: 0.65 },
         0,
       );
+      const nextLabel = document.querySelector("#essencia .section-label");
+      if (nextLabel)
+        gsap.fromTo(
+          nextLabel,
+          { y: compact ? 12 : 24 },
+          {
+            y: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: hero,
+              start: "bottom 95%",
+              end: "bottom 48%",
+              scrub: 0.55,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
       hero.dataset.cinematic = "true";
       return () => {
         delete hero.dataset.cinematic;

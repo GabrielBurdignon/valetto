@@ -1062,9 +1062,9 @@ main[id] {
   flex-shrink: 0;
 }
 .header-brand-wide {
-  width: 220px;
+  display: block;
+  width: 180px;
   height: auto;
-  max-height: 56px;
   object-fit: contain;
 }
 .header-brand-compact {
@@ -1084,9 +1084,8 @@ main[id] {
   }
   .header-brand-compact {
     display: block;
-    width: 180px;
+    width: 150px;
     height: auto;
-    max-height: 48px;
     object-fit: contain;
   }
 }
@@ -1223,4 +1222,15 @@ main[id] {
   .hero-poster-reveal {
     clip-path: none;
   }
+}
+
+/* The manifesto is the calm reading conclusion of the photographic panorama. */
+.statement {
+  padding-top: clamp(48px, 5vw, 80px);
+}
+
+.footer-brand {
+  display: block;
+  width: min(300px, 100%);
+  height: auto;
 }

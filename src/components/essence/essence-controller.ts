@@ -99,6 +99,23 @@ export function mountEssence(host: HTMLDivElement) {
             },
           },
         );
+        const nextHeading = document.querySelector("#philosophy-title");
+        if (nextHeading)
+          gsap.fromTo(
+            nextHeading,
+            { y: compact ? 14 : 28 },
+            {
+              y: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: section,
+                start: "bottom 96%",
+                end: "bottom 38%",
+                scrub: 0.5,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
         host.dataset.enhanced = "true";
         return () => {
           host.dataset.enhanced = "false";

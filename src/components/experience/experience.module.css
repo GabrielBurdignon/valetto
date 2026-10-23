@@ -259,3 +259,65 @@
     font-size: 27px;
   }
 }
+
+/* Keep the sunset readable. Contrast is concentrated around the service copy,
+   instead of darkening the whole right half of the photograph. */
+.section {
+  padding-top: clamp(48px, 5vw, 80px);
+}
+.frame::after {
+  background:
+    linear-gradient(
+      180deg,
+      var(--bg),
+      transparent 20%,
+      transparent 78%,
+      var(--bg)
+    ),
+    linear-gradient(90deg, transparent 52%, #08090b50 74%, #08090b8f);
+}
+.editorial {
+  left: 61%;
+  z-index: 1;
+  isolation: isolate;
+}
+.editorial::before {
+  content: "";
+  position: absolute;
+  inset: -48px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #08090bdb 5%,
+    #08090b9c 65%,
+    transparent 100%
+  );
+}
+.description p {
+  color: #e1e4e8;
+}
+.future {
+  margin-top: clamp(40px, 4vw, 64px);
+}
+.handoff {
+  height: clamp(48px, 7svh, 84px);
+  margin-top: clamp(32px, 4vw, 64px);
+}
+@media (max-width: 900px) {
+  .editorial {
+    left: auto;
+  }
+  .editorial::before {
+    content: none;
+  }
+  .frame::after {
+    background: linear-gradient(
+      180deg,
+      var(--bg),
+      transparent 18%,
+      transparent 84%,
+      var(--bg)
+    );
+  }
+}

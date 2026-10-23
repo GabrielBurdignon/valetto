@@ -6,7 +6,7 @@ test("editorial, navegação e política acessíveis", async ({
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Sua motoprecisa ir.Você não.",
+    "Sua moto precisa ir. Você não.",
   );
   await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
   expect(

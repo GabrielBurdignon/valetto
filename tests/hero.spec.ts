@@ -32,7 +32,7 @@ test("headline e CTA funcionam sem JavaScript", async ({
   const page = await context.newPage();
   await page.goto(baseURL!);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Sua motoprecisa ir.Você não.",
+    "Sua moto precisa ir. Você não.",
   );
   await expect
     .poll(() =>
@@ -93,7 +93,7 @@ test("imagem estática carrega sem canvas e respeita redução de movimento", as
   const viewport = page.viewportSize()!;
   if (viewport.width > 600 && viewport.width <= 900) {
     const art = await page.locator(".hero-art-static").boundingBox();
-    expect(art!.x).toBeGreaterThanOrEqual(viewport.width / 2);
+    expect(art!.x).toBeGreaterThanOrEqual(viewport.width * 0.44);
   }
   await page.screenshot({
     path: `test-results/${testInfo.project.name}-static-hero.png`,
@@ -123,7 +123,7 @@ test("parallax discreto acompanha scroll e é desativado ao reduzir movimento", 
     )
     .toContain("transform");
   await expect.poll(offset).toBeLessThan(-0.1);
-  expect(await offset()).toBeGreaterThanOrEqual(-12);
+  expect(await offset()).toBeGreaterThanOrEqual(-86);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(layer).toHaveCSS("transform", "none");
   await page.getByRole("link", { name: "Conheça a Valetto" }).click();
@@ -167,4 +167,25 @@ test("entrada apresenta moto, tipografia e CTA em sequência sem ocultar conteú
     "animation-name",
     "none",
   );
+});
+
+test("escala cinematográfica acompanha e reverte a rolagem sem girar a imagem", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const layer = page.locator(".hero-poster-parallax");
+  const scale = () =>
+    layer.evaluate(
+      (element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a,
+    );
+  await page.evaluate(() => scrollTo({ top: 400, behavior: "instant" }));
+  await expect(page.locator(".hero")).toHaveAttribute("data-cinematic", "true");
+  await expect.poll(scale).toBeGreaterThan(1.015);
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await expect.poll(scale).toBeLessThan(1.003);
+  await expect(page.locator("#hero-title")).toBeVisible();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(layer).toHaveCSS("transform", "none");
+  await expect(page.locator(".hero-copy")).toHaveCSS("opacity", "1");
 });

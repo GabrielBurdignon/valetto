@@ -84,35 +84,62 @@ test("Essência permanece legível sem JavaScript", async ({
   }
 });
 
-test("revelação de scroll preserva visibilidade e cancela ao reduzir movimento", async ({
+test("abertura fotográfica reverte com o scroll e desarma ao reduzir movimento", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  const heading = page.locator("#essence-title");
-  await page.evaluate(() =>
-    document
-      .querySelector("#essence-title")!
-      .scrollIntoView({ behavior: "instant", block: "center" }),
+  const figure = page.locator('[data-essence-reveal="image"]');
+  const story = page.locator("[data-essence-story]");
+  const move = async (progress: number) => {
+    await figure.evaluate((element, value) => {
+      const rect = element.getBoundingClientRect();
+      const top = rect.top + scrollY;
+      const start = top - innerHeight * 0.95;
+      const end = top + rect.height / 2 - innerHeight * 0.52;
+      scrollTo({ top: start + (end - start) * value, behavior: "instant" });
+    }, progress);
+  };
+  await figure.scrollIntoViewIfNeeded();
+  await expect(story).toHaveAttribute("data-enhanced", "true");
+  const inset = () =>
+    figure.evaluate((element) =>
+      parseFloat(getComputedStyle(element).clipPath.slice(6)),
+    );
+  await move(0.15);
+  await expect.poll(inset).toBeGreaterThan(3);
+  const first = await inset();
+  await move(0.9);
+  await expect.poll(inset).toBeLessThan(1.5);
+  await move(0.15);
+  await expect.poll(inset).toBeGreaterThan(first - 0.5);
+  // Overscan must cover the frame throughout the exit, without an exposed strip.
+  await figure.evaluate((element) =>
+    scrollTo({
+      top: element.getBoundingClientRect().bottom + scrollY - innerHeight * 0.3,
+      behavior: "instant",
+    }),
   );
   await expect
-    .poll(() => heading.evaluate((element) => element.getAnimations().length))
-    .toBeGreaterThan(0);
-  const frames = await heading.evaluate((element) =>
-    (element.getAnimations()[0].effect as KeyframeEffect).getKeyframes(),
-  );
-  expect(
-    Math.min(...frames.map((frame) => Number(frame.opacity))),
-  ).toBeGreaterThan(0);
+    .poll(() =>
+      figure.evaluate(
+        (element) =>
+          element.querySelector("img")!.getBoundingClientRect().bottom -
+          element.getBoundingClientRect().bottom,
+      ),
+    )
+    .toBeGreaterThanOrEqual(-1);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(heading).toHaveCSS("opacity", "1");
-  await expect(heading).toHaveCSS("transform", "none");
-  expect(
-    await heading.evaluate((element) => element.getAnimations().length),
-  ).toBe(0);
+  await expect(story).toHaveAttribute("data-enhanced", "false");
+  await expect(figure).toHaveCSS("clip-path", "none");
+  await expect(figure.locator("img")).toHaveCSS("transform", "none");
+  await expect(page.locator("#essence-title span").first()).toHaveCSS(
+    "transform",
+    "none",
+  );
 });
 
-test("fotografia revela após carregar, sem animar um painel vazio", async ({
+test("abertura aguarda fotografia decodificada sem animar um painel vazio", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -132,28 +159,24 @@ test("fotografia revela após carregar, sem animar um painel vazio", async ({
   try {
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const figure = page.locator('[data-essence-reveal="image"]');
+    const story = page.locator("[data-essence-story]");
     await figure.scrollIntoViewIfNeeded();
     expect(
       await figure
         .locator("img")
         .evaluate((image: HTMLImageElement) => image.naturalWidth),
     ).toBe(0);
-    expect(
-      await figure.evaluate((element) => element.getAnimations().length),
-    ).toBe(0);
+    await expect(story).toHaveAttribute("data-enhanced", "false");
+    await expect(figure).toHaveCSS("clip-path", "none");
     release();
-    await expect
-      .poll(() => figure.evaluate((element) => element.getAnimations().length))
-      .toBeGreaterThan(0);
-    const frames = await figure.evaluate((element) =>
-      (element.getAnimations()[0].effect as KeyframeEffect).getKeyframes(),
-    );
+    await expect(story).toHaveAttribute("data-enhanced", "true");
     expect(
-      Math.min(...frames.map((frame) => Number(frame.opacity))),
+      await figure
+        .locator("img")
+        .evaluate((image: HTMLImageElement) => image.naturalWidth),
     ).toBeGreaterThan(0);
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await expect(figure).toHaveCSS("opacity", "1");
-    await expect(figure).toHaveCSS("transform", "none");
+    await expect(figure).toHaveCSS("clip-path", "none");
   } finally {
     release();
   }

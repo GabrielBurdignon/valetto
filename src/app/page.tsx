@@ -21,11 +21,8 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">VALETTO / MOTORCYCLE CONCIERGE</p>
           <h1 id="hero-title">
-            Sua moto
-            <br />
-            precisa ir.
-            <br />
-            <span>Você não.</span>
+            <span className="hero-title-lead">Sua moto precisa ir.</span>{" "}
+            <span className="hero-title-answer">Você não.</span>
           </h1>
           <p className="hero-description">
             Seu tempo merece uma nova experiência

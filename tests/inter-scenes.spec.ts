@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("demonstração preserva medidas CSS e imagens alterando somente a família", async ({
+test("estudo tipográfico preserva variantes, conteúdo e fotografias compartilhadas", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -13,7 +13,7 @@ test("demonstração preserva medidas CSS e imagens alterando somente a família
         elements.map((el) => {
           const s = getComputedStyle(el);
           return {
-            text: el.textContent,
+            text: el.textContent?.replace(/\s/g, ""),
             size: s.fontSize,
             lineHeight: s.lineHeight,
             weight: s.fontWeight,
@@ -42,8 +42,11 @@ test("demonstração preserva medidas CSS e imagens alterando somente a família
   const home = await inspect("/");
   const current = await inspect("/revisao/inter/atual");
   const inter = await inspect("/revisao/inter/inter");
-  expect(current.headings).toEqual(home.headings);
-  expect(inter.headings).toEqual(home.headings);
+  // The historical specimen keeps its original three-line hero. The new home
+  // deliberately uses two typographic scales; shared editorial scenes still match.
+  expect(inter.headings).toEqual(current.headings);
+  expect(current.headings.slice(1)).toEqual(home.headings.slice(1));
+  expect(current.headings[0].text).toEqual(home.headings[0].text);
   expect(inter.images).toEqual(current.images);
   expect(current.description).toEqual(home.description);
   expect(inter.description).toEqual(home.description);

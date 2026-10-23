@@ -47,7 +47,7 @@ export function EssenceSection() {
               width={asset.width}
               height={asset.height}
               alt={asset.alt}
-              sizes="(max-width: 600px) calc(100vw - 48px), 88vw"
+              sizes="100vw"
               loading="lazy"
             />
           </figure>

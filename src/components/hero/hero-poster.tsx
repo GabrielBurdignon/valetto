@@ -22,10 +22,7 @@ export function HeroPoster({ asset }: { asset: HeroPosterAsset }) {
       revert = undefined;
       if (motion.matches) return;
       try {
-        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
+        const { mountHero } = await import("./hero-controller");
         if (
           disposed ||
           motion.matches ||
@@ -34,24 +31,7 @@ export function HeroPoster({ asset }: { asset: HeroPosterAsset }) {
           !layer.current
         )
           return;
-        gsap.registerPlugin(ScrollTrigger);
-        const context = gsap.context(() => {
-          gsap.fromTo(
-            layer.current,
-            { y: 0 },
-            {
-              y: matchMedia("(max-width: 900px)").matches ? -6 : -12,
-              ease: "none",
-              scrollTrigger: {
-                trigger: root.current!.closest(".hero"),
-                start: "top top",
-                end: "bottom top",
-                scrub: 0.8,
-              },
-            },
-          );
-        }, root.current);
-        revert = () => context.revert();
+        revert = mountHero(root.current, layer.current);
       } catch {
         // A failed animation chunk must never hide the product image or CTA.
       }
@@ -124,7 +104,13 @@ export function HeroPoster({ asset }: { asset: HeroPosterAsset }) {
               sizes="100vw"
               fetchPriority="high"
               loading="eager"
-              onLoad={() => setLoaded(true)}
+              onLoad={(event) => {
+                const image = event.currentTarget;
+                void image
+                  .decode()
+                  .then(() => setLoaded(true))
+                  .catch(() => {});
+              }}
             />
           </picture>
         </div>

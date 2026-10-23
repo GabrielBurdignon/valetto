@@ -41,7 +41,7 @@ test("home usa só a Inter local de produção, preservando lettering e Georgia"
         return rows.size;
       }),
     );
-  expect(lines).toEqual([3, 2, 3]);
+  expect(lines).toEqual([page.viewportSize()!.width > 900 ? 2 : 3, 2, 3]);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,

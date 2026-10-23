@@ -274,7 +274,7 @@
       transparent 78%,
       var(--bg)
     ),
-    linear-gradient(90deg, transparent 52%, #08090b50 74%, #08090b8f);
+    linear-gradient(90deg, transparent 48%, #08090ba3 72%, #08090bb3);
 }
 .editorial {
   left: 61%;

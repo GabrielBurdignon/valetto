@@ -458,8 +458,8 @@
       linear-gradient(
         90deg,
         transparent 42%,
-        #08090b44 58%,
-        #08090bc9 76%,
+        #08090b99 58%,
+        #08090bd9 76%,
         #08090be8
       ),
       linear-gradient(0deg, #08090b80, transparent 38%);
@@ -545,6 +545,13 @@
 }
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
   .story[data-enhanced="true"] .chapter p {
+    color: #e1e4e8;
+  }
+}
+
+/* Protect small copy from the approved metallic highlights, desktop only. */
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .story[data-enhanced="true"] .chapterIndex {
     color: #e1e4e8;
   }
 }
